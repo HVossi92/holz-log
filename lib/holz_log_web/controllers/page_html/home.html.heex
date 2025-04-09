@@ -10,8 +10,8 @@
   <body class="flex flex-col min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100">
     <!-- Header -->
     <header class="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 sticky top-0 z-10">
-      <div class="container mx-auto px-4 py-3 flex items-center justify-between">
-        <div class="flex items-center">
+      <div class="p-4 md:p-6 flex items-center justify-between">
+        <div class="flex items-center gap-3">
           <button
             id="mobile-menu-button"
             class="md:hidden mr-2 p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700"
@@ -27,7 +27,7 @@
             href="https://github.com/yourusername/micro-blog"
             target="_blank"
             rel="noopener noreferrer"
-            class="ml-3 p-2 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-100 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+            class="p-2 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-100 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
             title="View on GitHub"
           >
             <svg
@@ -43,7 +43,7 @@
 <!-- Contact Email Link -->
           <a
             href="mailto:contact@microblog.com"
-            class="ml-2 p-2 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-100 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+            class="p-2 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-100 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
             title="Contact Us"
           >
             <svg
@@ -63,7 +63,7 @@
           </a>
         </div>
 
-        <div class="flex items-center space-x-2">
+        <div class="flex items-center gap-2">
           <!-- Dark mode toggle -->
           <button
             id="theme-toggle"
@@ -326,19 +326,14 @@
     </div>
     
 <!-- Footer with Privacy Policy Link -->
-    <footer class="mt-auto py-4 px-6 bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 text-center text-sm text-gray-500 dark:text-gray-400">
-      <div class="container mx-auto flex flex-col md:flex-row justify-between items-center">
-        <div>
-          &copy; 2023 Micro-Blog. All rights reserved.
-        </div>
-        <div class="mt-2 md:mt-0">
-          <a
-            href="privacy.html"
-            class="hover:text-gray-700 dark:hover:text-gray-300 transition-colors"
-          >
-            Privacy Policy
-          </a>
-        </div>
+    <footer class="mt-auto py-4 px-4 md:px-6 bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 text-sm text-gray-500 dark:text-gray-400">
+      <div class="flex items-center">
+        <a
+          href="privacy.html"
+          class="hover:text-gray-700 dark:hover:text-gray-300 transition-colors"
+        >
+          Privacy Policy
+        </a>
       </div>
     </footer>
 
