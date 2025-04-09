@@ -5,29 +5,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Micro-Blog</title>
-    <script src="https://cdn.tailwindcss.com">
-    </script>
-    <script>
-      tailwind.config = {
-        darkMode: 'class',
-        theme: {
-          extend: {
-            typography: {
-              DEFAULT: {
-                css: {
-                  maxWidth: '100%',
-                },
-              },
-            },
-          },
-        },
-        plugins: [
-          function({ addVariant }) {
-            addVariant('dark', '.dark &');
-          },
-        ],
-      }
-    </script>
+    <!-- Removed external Tailwind CDN as it's already part of the Phoenix setup -->
   </head>
   <body class="flex flex-col min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100">
     <!-- Header -->
@@ -90,6 +68,7 @@
           <button
             id="theme-toggle"
             class="p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700"
+            aria-label="Toggle dark mode"
           >
             <!-- Sun icon (shown in dark mode) -->
             <svg
@@ -743,29 +722,6 @@
         sidebar.classList.add('-translate-x-full');
       }
 
-      // Toggle dark mode
-      function toggleDarkMode() {
-        document.documentElement.classList.toggle('dark');
-        
-        // Save preference to localStorage
-        if (document.documentElement.classList.contains('dark')) {
-          localStorage.setItem('theme', 'dark');
-        } else {
-          localStorage.setItem('theme', 'light');
-        }
-      }
-
-      // Initialize dark mode based on user preference
-      function initDarkMode() {
-        // Check for saved theme preference or prefer-color-scheme
-        if (localStorage.getItem('theme') === 'dark' || 
-            (!localStorage.getItem('theme') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-          document.documentElement.classList.add('dark');
-        } else {
-          document.documentElement.classList.remove('dark');
-        }
-      }
-
       // Event listeners
       mobileMenuButton.addEventListener('click', toggleMobileMenu);
       createNoteButton.addEventListener('click', createNote);
@@ -784,10 +740,9 @@
         searchQuery = e.target.value;
         renderNotesList();
       });
-      themeToggle.addEventListener('click', toggleDarkMode);
+      // Theme toggle is now handled by dark_mode.js
 
       // Initialize
-      initDarkMode();
       renderCategories();
       renderNotesList();
     </script>
