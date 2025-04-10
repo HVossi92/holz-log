@@ -18,6 +18,8 @@ defmodule HolzLogWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :home
+    resources "/categories", CategoryController
+    resources "/notes", NoteController
   end
 
   # Other scopes may use custom stacks.
