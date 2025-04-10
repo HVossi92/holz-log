@@ -1,278 +1,218 @@
 <.flash_group flash={@flash} /> <!DOCTYPE html>
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Micro-Blog</title>
-    <!-- Removed external Tailwind CDN as it's already part of the Phoenix setup -->
-  </head>
-  <body class="flex flex-col min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100">
-    <!-- Header -->
-    <header class="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 sticky top-0 z-10">
-      <div class="p-4 md:p-6 flex items-center justify-between">
-        <div class="flex items-center gap-3">
-          <button
-            id="mobile-menu-button"
-            class="md:hidden mr-2 p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700"
-          >
-            <span class="block w-6 h-0.5 bg-gray-600 dark:bg-gray-300 mb-1"></span>
-            <span class="block w-6 h-0.5 bg-gray-600 dark:bg-gray-300 mb-1"></span>
-            <span class="block w-6 h-0.5 bg-gray-600 dark:bg-gray-300"></span>
-          </button>
-          <h1 class="text-xl font-bold text-gray-800 dark:text-gray-100">Micro-Blog</h1>
-          
-<!-- GitHub Link -->
-          <a
-            href="https://github.com/yourusername/micro-blog"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="p-2 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-100 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
-            title="View on GitHub"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              class="h-5 w-5"
-              fill="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
-            </svg>
-          </a>
-          
-<!-- Contact Email Link -->
-          <a
-            href="mailto:contact@microblog.com"
-            class="p-2 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-100 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
-            title="Contact Us"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              class="h-5 w-5"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
-              />
-            </svg>
-          </a>
-        </div>
-
-        <div class="flex items-center gap-2">
-          <!-- Dark mode toggle -->
-          <button
-            id="theme-toggle"
-            class="p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700"
-            aria-label="Toggle dark mode"
-          >
-            <!-- Sun icon (shown in dark mode) -->
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              class="h-5 w-5 hidden dark:block text-yellow-300"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"
-              />
-            </svg>
-            <!-- Moon icon (shown in light mode) -->
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              class="h-5 w-5 block dark:hidden text-gray-700"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"
-              />
-            </svg>
-          </button>
-
-          <div class="relative">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              class="absolute left-2.5 top-2.5 h-4 w-4 text-gray-500 dark:text-gray-400"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-              />
-            </svg>
-            <input
-              type="text"
-              id="search-input"
-              placeholder="Search notes..."
-              class="pl-8 w-full md:w-64 h-10 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400"
-            />
-          </div>
-          <button
-            id="create-note-button"
-            class="flex items-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              class="h-4 w-4 mr-1"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M12 4v16m8-8H4"
-              />
-            </svg>
-            <span class="hidden sm:inline">Create Note</span>
-          </button>
-        </div>
-      </div>
-    </header>
-
-    <div class="flex flex-1 overflow-hidden">
-      <!-- Sidebar -->
-      <aside
-        id="sidebar"
-        class="bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 w-64 flex-shrink-0 overflow-y-auto fixed inset-y-0 left-0 z-20 pt-16 -translate-x-full md:translate-x-0 md:static md:pt-0 transition-transform duration-300"
-      >
-        <div class="p-4">
-          <h2 class="font-semibold text-gray-600 dark:text-gray-400 uppercase text-xs tracking-wider mb-3">
-            Categories
-          </h2>
-          <ul class="space-y-1" id="categories-list">
-            <!-- Categories will be inserted here by JavaScript -->
-          </ul>
-        </div>
-      </aside>
-      
-<!-- Main content -->
-      <main class="flex-1 overflow-y-auto p-4 md:p-6">
-        <!-- Create/Edit Note Form (hidden by default) -->
-        <div id="note-form" class="hidden bg-white dark:bg-gray-800 rounded-lg shadow p-4 mb-6">
-          <h2 id="form-title" class="text-xl font-bold mb-4">Create New Note</h2>
-          <form id="note-editor-form">
-            <input type="hidden" id="note-id" />
-            <div class="space-y-4">
-              <div>
-                <label
-                  for="title"
-                  class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
-                >
-                  Title
-                </label>
-                <input
-                  id="title"
-                  name="title"
-                  class="w-full h-10 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 px-3 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400"
-                  required
-                />
-              </div>
-
-              <div>
-                <label
-                  for="categories"
-                  class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
-                >
-                  Categories (comma separated)
-                </label>
-                <input
-                  id="categories"
-                  name="categories"
-                  class="w-full h-10 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 px-3 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400"
-                />
-              </div>
-
-              <div>
-                <label
-                  for="content"
-                  class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
-                >
-                  Content (Markdown supported)
-                </label>
-                <textarea
-                  id="content"
-                  name="content"
-                  rows="10"
-                  class="w-full rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 px-3 py-2 font-mono focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400"
-                  required
-                ></textarea>
-              </div>
-
-              <div class="flex justify-end space-x-2">
-                <button
-                  type="button"
-                  id="cancel-button"
-                  class="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700"
-                >
-                  Cancel
-                </button>
-                <button
-                  type="submit"
-                  class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md"
-                >
-                  Save Note
-                </button>
-              </div>
-            </div>
-          </form>
-        </div>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Micro-Blog</title>
+</head>
+<body class="flex flex-col min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100">
+  <!-- Header -->
+  <header class="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 sticky top-0 z-10">
+    <div class="container mx-auto px-4 py-3 flex items-center justify-between">
+      <div class="flex items-center">
+        <button class="md:hidden mr-2 p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700">
+          <span class="block w-6 h-0.5 bg-gray-600 dark:bg-gray-300 mb-1"></span>
+          <span class="block w-6 h-0.5 bg-gray-600 dark:bg-gray-300 mb-1"></span>
+          <span class="block w-6 h-0.5 bg-gray-600 dark:bg-gray-300"></span>
+        </button>
+        <h1 class="text-xl font-bold text-gray-800 dark:text-gray-100">Micro-Blog</h1>
         
-<!-- Single Note View (hidden by default) -->
-        <div id="note-view" class="hidden bg-white dark:bg-gray-800 rounded-lg shadow p-4 mb-6">
-          <div class="flex justify-between items-start mb-4">
-            <div>
-              <h2 id="view-title" class="text-2xl font-bold"></h2>
-              <div id="view-categories" class="flex flex-wrap gap-1 mt-2">
-                <!-- Categories will be inserted here by JavaScript -->
-              </div>
-            </div>
-            <div class="flex space-x-2">
-              <button
-                id="back-button"
-                class="flex items-center px-3 py-1 border border-gray-300 dark:border-gray-600 rounded-md text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700"
-              >
+<!-- GitHub Link -->
+        <a
+          href="https://github.com/yourusername/micro-blog"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="ml-3 p-2 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-100 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+          title="View on GitHub"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-5 w-5"
+            fill="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
+          </svg>
+        </a>
+        
+<!-- Contact Email Link -->
+        <a
+          href="mailto:contact@microblog.com"
+          class="ml-2 p-2 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-100 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+          title="Contact Us"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-5 w-5"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+            />
+          </svg>
+        </a>
+      </div>
+
+      <div class="flex items-center space-x-2">
+        <!-- Dark mode toggle (using the existing JS) -->
+        <button id="theme-toggle" class="p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700">
+          <!-- Sun icon (shown in dark mode) -->
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-5 w-5 hidden dark:block text-yellow-300"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"
+            />
+          </svg>
+          <!-- Moon icon (shown in light mode) -->
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-5 w-5 block dark:hidden text-gray-700"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"
+            />
+          </svg>
+        </button>
+
+        <div class="relative">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="absolute left-2.5 top-2.5 h-4 w-4 text-gray-500 dark:text-gray-400"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+            />
+          </svg>
+          <input
+            type="text"
+            placeholder="Search notes..."
+            class="pl-8 w-full md:w-64 h-10 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400"
+          />
+        </div>
+        <button class="flex items-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-4 w-4 mr-1"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M12 4v16m8-8H4"
+            />
+          </svg>
+          <span class="hidden sm:inline">Create Note</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <div class="flex flex-1 overflow-hidden">
+    <!-- Sidebar (shown on desktop) -->
+    <aside class="bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 w-64 flex-shrink-0 overflow-y-auto hidden md:block">
+      <div class="p-4">
+        <h2 class="font-semibold text-gray-600 dark:text-gray-400 uppercase text-xs tracking-wider mb-3">
+          Categories
+        </h2>
+        <ul class="space-y-1">
+          <li>
+            <button class="w-full text-left px-3 py-2 rounded-md text-sm font-medium bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-gray-100">
+              All Notes
+            </button>
+          </li>
+          <li>
+            <button class="w-full text-left px-3 py-2 rounded-md text-sm font-medium text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-gray-100">
+              Phoenix
+            </button>
+          </li>
+          <li>
+            <button class="w-full text-left px-3 py-2 rounded-md text-sm font-medium text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-gray-100">
+              Elixir
+            </button>
+          </li>
+          <li>
+            <button class="w-full text-left px-3 py-2 rounded-md text-sm font-medium text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-gray-100">
+              Programming
+            </button>
+          </li>
+          <li>
+            <button class="w-full text-left px-3 py-2 rounded-md text-sm font-medium text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-gray-100">
+              Markdown
+            </button>
+          </li>
+          <li>
+            <button class="w-full text-left px-3 py-2 rounded-md text-sm font-medium text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-gray-100">
+              Writing
+            </button>
+          </li>
+          <li>
+            <button class="w-full text-left px-3 py-2 rounded-md text-sm font-medium text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-gray-100">
+              Documentation
+            </button>
+          </li>
+          <li>
+            <button class="w-full text-left px-3 py-2 rounded-md text-sm font-medium text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-gray-100">
+              SQLite
+            </button>
+          </li>
+          <li>
+            <button class="w-full text-left px-3 py-2 rounded-md text-sm font-medium text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-gray-100">
+              Database
+            </button>
+          </li>
+        </ul>
+      </div>
+    </aside>
+    
+<!-- Main content -->
+    <main class="flex-1 overflow-y-auto p-4 md:p-6">
+      <!-- Notes List -->
+      <div>
+        <h2 class="text-xl font-bold mb-4 text-gray-900 dark:text-gray-100">
+          All Notes
+          <span class="text-sm font-normal text-gray-500 dark:text-gray-400 ml-2">
+            (3 notes)
+          </span>
+        </h2>
+
+        <div class="space-y-4">
+          <!-- Note 1 -->
+          <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-4 hover:shadow-md transition-shadow">
+            <div class="flex justify-between items-start">
+              <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-100 hover:text-blue-600 dark:hover:text-blue-400 cursor-pointer">
+                Getting Started with Phoenix
+              </h3>
+              <button class="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 p-1">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  class="h-4 w-4 mr-1"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M10 19l-7-7m0 0l7-7m-7 7h18"
-                  />
-                </svg>
-                Back
-              </button>
-              <button
-                id="edit-view-button"
-                class="flex items-center px-3 py-1 bg-blue-600 hover:bg-blue-700 text-white rounded-md"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  class="h-4 w-4 mr-1"
+                  class="h-4 w-4"
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
@@ -284,50 +224,134 @@
                     d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
                   />
                 </svg>
-                Edit
+                <span class="sr-only">Edit</span>
               </button>
             </div>
-          </div>
-          <hr class="my-4 border-gray-200 dark:border-gray-700" />
-          <div id="view-content" class="mt-4 prose dark:prose-invert">
-            <!-- Content will be inserted here by JavaScript -->
-          </div>
-        </div>
-        
-<!-- Notes List -->
-        <div id="notes-list-container">
-          <h2
-            id="notes-list-title"
-            class="text-xl font-bold mb-4 text-gray-900 dark:text-gray-100"
-          >
-            All Notes
-            <span
-              id="notes-count"
-              class="text-sm font-normal text-gray-500 dark:text-gray-400 ml-2"
-            >
-              (0 notes)
-            </span>
-          </h2>
 
-          <div
-            id="empty-state"
-            class="hidden bg-white dark:bg-gray-800 rounded-lg shadow p-8 text-center"
-          >
-            <p class="text-gray-500 dark:text-gray-400">
-              No notes found. Create a new note to get started.
+            <div class="flex flex-wrap gap-1 mt-2">
+              <span class="inline-block px-2 py-1 text-xs font-medium bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 rounded-md mr-1 mb-1">
+                Phoenix
+              </span>
+              <span class="inline-block px-2 py-1 text-xs font-medium bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 rounded-md mr-1 mb-1">
+                Elixir
+              </span>
+              <span class="inline-block px-2 py-1 text-xs font-medium bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 rounded-md mr-1 mb-1">
+                Programming
+              </span>
+            </div>
+
+            <p class="mt-2 text-gray-600 dark:text-gray-300 line-clamp-2 cursor-pointer">
+              Phoenix is a web development framework written in Elixir which implements the server-side MVC pattern. Many of its components and concepts will seem familiar to those of us with experience in other web frameworks like Ruby on Rails or Django.
             </p>
-          </div>
 
-          <div id="notes-list" class="space-y-4">
-            <!-- Notes will be inserted here by JavaScript -->
+            <div class="mt-2 text-xs text-gray-500 dark:text-gray-400">
+              Updated 5/15/2023
+            </div>
+          </div>
+          
+<!-- Note 2 -->
+          <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-4 hover:shadow-md transition-shadow">
+            <div class="flex justify-between items-start">
+              <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-100 hover:text-blue-600 dark:hover:text-blue-400 cursor-pointer">
+                Markdown Cheatsheet
+              </h3>
+              <button class="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 p-1">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-4 w-4"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
+                  />
+                </svg>
+                <span class="sr-only">Edit</span>
+              </button>
+            </div>
+
+            <div class="flex flex-wrap gap-1 mt-2">
+              <span class="inline-block px-2 py-1 text-xs font-medium bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 rounded-md mr-1 mb-1">
+                Markdown
+              </span>
+              <span class="inline-block px-2 py-1 text-xs font-medium bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 rounded-md mr-1 mb-1">
+                Writing
+              </span>
+              <span class="inline-block px-2 py-1 text-xs font-medium bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 rounded-md mr-1 mb-1">
+                Documentation
+              </span>
+            </div>
+
+            <p class="mt-2 text-gray-600 dark:text-gray-300 line-clamp-2 cursor-pointer">
+              Markdown Basics. Headers. H1, H2, H3. Emphasis. italic or italic, bold or bold. Lists. Item 1, Item 2, Subitem 2.1, Subitem 2.2. First item, Second item. Links. Images. Code. Inline code has backticks.
+            </p>
+
+            <div class="mt-2 text-xs text-gray-500 dark:text-gray-400">
+              Updated 5/16/2023
+            </div>
+          </div>
+          
+<!-- Note 3 -->
+          <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-4 hover:shadow-md transition-shadow">
+            <div class="flex justify-between items-start">
+              <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-100 hover:text-blue-600 dark:hover:text-blue-400 cursor-pointer">
+                SQLite Database Tips
+              </h3>
+              <button class="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 p-1">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-4 w-4"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
+                  />
+                </svg>
+                <span class="sr-only">Edit</span>
+              </button>
+            </div>
+
+            <div class="flex flex-wrap gap-1 mt-2">
+              <span class="inline-block px-2 py-1 text-xs font-medium bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 rounded-md mr-1 mb-1">
+                SQLite
+              </span>
+              <span class="inline-block px-2 py-1 text-xs font-medium bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 rounded-md mr-1 mb-1">
+                Database
+              </span>
+              <span class="inline-block px-2 py-1 text-xs font-medium bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 rounded-md mr-1 mb-1">
+                Programming
+              </span>
+            </div>
+
+            <p class="mt-2 text-gray-600 dark:text-gray-300 line-clamp-2 cursor-pointer">
+              SQLite is a C library that provides a lightweight disk-based database that doesn't require a separate server process and allows accessing the database using a nonstandard variant of the SQL query language.
+            </p>
+
+            <div class="mt-2 text-xs text-gray-500 dark:text-gray-400">
+              Updated 5/17/2023
+            </div>
           </div>
         </div>
-      </main>
-    </div>
-    
+      </div>
+    </main>
+  </div>
+  
 <!-- Footer with Privacy Policy Link -->
-    <footer class="mt-auto py-4 px-4 md:px-6 bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 text-sm text-gray-500 dark:text-gray-400">
-      <div class="flex items-center">
+  <footer class="py-4 px-6 bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 text-center text-sm text-gray-500 dark:text-gray-400">
+    <div class="container mx-auto flex flex-col md:flex-row justify-between items-center">
+      <div>
+        &copy; 2023 Micro-Blog. All rights reserved.
+      </div>
+      <div class="mt-2 md:mt-0">
         <a
           href="privacy.html"
           class="hover:text-gray-700 dark:hover:text-gray-300 transition-colors"
@@ -335,414 +359,6 @@
           Privacy Policy
         </a>
       </div>
-    </footer>
-
-    <script>
-      // Sample data
-      const initialNotes = [
-        {
-          id: 1,
-          title: "Getting Started with Phoenix",
-          content: "# Phoenix Framework\n\nPhoenix is a web development framework written in Elixir which implements the server-side MVC pattern. Many of its components and concepts will seem familiar to those of us with experience in other web frameworks like Ruby on Rails or Django.\n\n## Key Features\n\n- Real-time functionality with channels\n- Productivity and maintainability\n- Fault-tolerance and high availability\n- Performance and scalability",
-          categories: ["Phoenix", "Elixir", "Programming"],
-          inserted_at: "2023-05-15T10:30:00Z",
-          updated_at: "2023-05-15T10:30:00Z",
-        },
-        {
-          id: 2,
-          title: "Markdown Cheatsheet",
-          content: "# Markdown Basics\n\n## Headers\n\n# H1\n## H2\n### H3\n\n## Emphasis\n\n*italic* or _italic_\n**bold** or __bold__\n\n## Lists\n\n- Item 1\n- Item 2\n  - Subitem 2.1\n  - Subitem 2.2\n\n1. First item\n2. Second item\n\n## Links\n\n[Link text](https://example.com)\n\n## Images\n\n![Alt text](image-url.jpg)\n\n## Code\n\nInline `code` has backticks.\n\n```\nCode blocks use triple backticks\n```",
-          categories: ["Markdown", "Writing", "Documentation"],
-          inserted_at: "2023-05-16T14:20:00Z",
-          updated_at: "2023-05-16T14:20:00Z",
-        },
-        {
-          id: 3,
-          title: "SQLite Database Tips",
-          content: "# SQLite Tips and Tricks\n\nSQLite is a C library that provides a lightweight disk-based database that doesn't require a separate server process and allows accessing the database using a nonstandard variant of the SQL query language.\n\n## Advantages\n\n- Zero configuration - no setup or administration needed\n- Cross-platform file format\n- Compact - the entire database is stored in a single disk file\n- Efficient - performance comparable to direct filesystem I/O\n\n## Common Commands\n\n```sql\n-- Create a table\nCREATE TABLE users (id INTEGER PRIMARY KEY, name TEXT, email TEXT);\n\n-- Insert data\nINSERT INTO users (name, email) VALUES ('John Doe', 'john@example.com');\n\n-- Query data\nSELECT * FROM users WHERE name LIKE 'J%';\n```",
-          categories: ["SQLite", "Database", "Programming"],
-          inserted_at: "2023-05-17T09:45:00Z",
-          updated_at: "2023-05-17T09:45:00Z",
-        },
-      ];
-
-      // State management
-      let notes = [...initialNotes];
-      let selectedCategory = "All Notes";
-      let searchQuery = "";
-      let isCreating = false;
-      let isEditing = false;
-      let currentNote = null;
-      let viewingNote = null;
-
-      // DOM elements
-      const sidebar = document.getElementById('sidebar');
-      const mobileMenuButton = document.getElementById('mobile-menu-button');
-      const categoriesList = document.getElementById('categories-list');
-      const searchInput = document.getElementById('search-input');
-      const createNoteButton = document.getElementById('create-note-button');
-      const noteForm = document.getElementById('note-form');
-      const formTitle = document.getElementById('form-title');
-      const noteEditorForm = document.getElementById('note-editor-form');
-      const noteIdInput = document.getElementById('note-id');
-      const titleInput = document.getElementById('title');
-      const categoriesInput = document.getElementById('categories');
-      const contentInput = document.getElementById('content');
-      const cancelButton = document.getElementById('cancel-button');
-      const noteView = document.getElementById('note-view');
-      const viewTitle = document.getElementById('view-title');
-      const viewCategories = document.getElementById('view-categories');
-      const viewContent = document.getElementById('view-content');
-      const backButton = document.getElementById('back-button');
-      const editViewButton = document.getElementById('edit-view-button');
-      const notesListContainer = document.getElementById('notes-list-container');
-      const notesListTitle = document.getElementById('notes-list-title');
-      const notesCount = document.getElementById('notes-count');
-      const emptyState = document.getElementById('empty-state');
-      const notesList = document.getElementById('notes-list');
-      const themeToggle = document.getElementById('theme-toggle');
-
-      // Get all unique categories from notes
-      function getAllCategories() {
-        const categories = new Set(["All Notes"]);
-        notes.forEach(note => {
-          note.categories.forEach(category => {
-            categories.add(category);
-          });
-        });
-        return Array.from(categories);
-      }
-
-      // Filter notes based on selected category and search query
-      function getFilteredNotes() {
-        return notes.filter(note => {
-          const matchesCategory = selectedCategory === "All Notes" || note.categories.includes(selectedCategory);
-          const matchesSearch = searchQuery === "" || 
-            note.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
-            note.content.toLowerCase().includes(searchQuery.toLowerCase());
-          return matchesCategory && matchesSearch;
-        });
-      }
-
-      // Render categories in sidebar
-      function renderCategories() {
-        const allCategories = getAllCategories();
-        categoriesList.innerHTML = '';
-        
-        allCategories.forEach(category => {
-          const li = document.createElement('li');
-          li.innerHTML = `
-            <button 
-              class="w-full text-left px-3 py-2 rounded-md text-sm font-medium ${
-                selectedCategory === category 
-                  ? 'bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-gray-100' 
-                  : 'text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-gray-100'
-              }"
-              data-category="${category}"
-            >
-              ${category}
-            </button>
-          `;
-          
-          li.querySelector('button').addEventListener('click', () => {
-            selectedCategory = category;
-            renderCategories();
-            renderNotesList();
-            closeMobileMenu();
-          });
-          
-          categoriesList.appendChild(li);
-        });
-      }
-
-      // Render notes list
-      function renderNotesList() {
-        const filteredNotes = getFilteredNotes();
-        
-        // Update title and count
-        notesListTitle.textContent = selectedCategory === "All Notes" ? "All Notes" : `Notes in ${selectedCategory}`;
-        notesCount.textContent = `(${filteredNotes.length} ${filteredNotes.length === 1 ? "note" : "notes"})`;
-        
-        // Show empty state if no notes
-        if (filteredNotes.length === 0) {
-          emptyState.classList.remove('hidden');
-          notesList.classList.add('hidden');
-        } else {
-          emptyState.classList.add('hidden');
-          notesList.classList.remove('hidden');
-          
-          // Render notes
-          notesList.innerHTML = '';
-          filteredNotes.forEach(note => {
-            const noteElement = document.createElement('div');
-            noteElement.className = 'bg-white dark:bg-gray-800 rounded-lg shadow p-4 hover:shadow-md transition-shadow';
-            
-            // Create categories HTML
-            const categoriesHTML = note.categories.map(category => 
-              `<span class="inline-block px-2 py-1 text-xs font-medium bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 rounded-md mr-1 mb-1">${category}</span>`
-            ).join('');
-            
-            // Create excerpt from content (remove markdown syntax)
-            const excerpt = note.content
-              .replace(/[#*`]/g, '')
-              .substring(0, 150) + (note.content.length > 150 ? '...' : '');
-            
-            noteElement.innerHTML = `
-              <div class="flex justify-between items-start">
-                <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-100 hover:text-blue-600 dark:hover:text-blue-400 cursor-pointer" data-note-id="${note.id}">
-                  ${note.title}
-                </h3>
-                <button class="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 p-1" data-edit-id="${note.id}">
-                  <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-                  </svg>
-                  <span class="sr-only">Edit</span>
-                </button>
-              </div>
-
-              <div class="flex flex-wrap gap-1 mt-2">
-                ${categoriesHTML}
-              </div>
-
-              <p class="mt-2 text-gray-600 dark:text-gray-300 line-clamp-2 cursor-pointer" data-note-id="${note.id}">
-                ${excerpt}
-              </p>
-
-              <div class="mt-2 text-xs text-gray-500 dark:text-gray-400">
-                Updated ${new Date(note.updated_at).toLocaleDateString()}
-              </div>
-            `;
-            
-            // Add event listeners
-            noteElement.querySelector(`h3[data-note-id="${note.id}"]`).addEventListener('click', () => {
-              viewNote(note);
-            });
-            
-            noteElement.querySelector(`p[data-note-id="${note.id}"]`).addEventListener('click', () => {
-              viewNote(note);
-            });
-            
-            noteElement.querySelector(`button[data-edit-id="${note.id}"]`).addEventListener('click', () => {
-              editNote(note);
-            });
-            
-            notesList.appendChild(noteElement);
-          });
-        }
-      }
-
-      // Create a new note
-      function createNote() {
-        currentNote = {
-          id: notes.length > 0 ? Math.max(...notes.map(note => note.id)) + 1 : 1,
-          title: "",
-          content: "",
-          categories: [],
-          inserted_at: new Date().toISOString(),
-          updated_at: new Date().toISOString(),
-        };
-        
-        isCreating = true;
-        isEditing = false;
-        viewingNote = null;
-        
-        // Update form
-        formTitle.textContent = "Create New Note";
-        titleInput.value = "";
-        categoriesInput.value = "";
-        contentInput.value = "";
-        noteIdInput.value = currentNote.id;
-        
-        // Show form, hide other views
-        noteForm.classList.remove('hidden');
-        noteView.classList.add('hidden');
-        notesListContainer.classList.add('hidden');
-      }
-
-      // Edit an existing note
-      function editNote(note) {
-        currentNote = note;
-        isEditing = true;
-        isCreating = false;
-        viewingNote = null;
-        
-        // Update form
-        formTitle.textContent = "Edit Note";
-        titleInput.value = note.title;
-        categoriesInput.value = note.categories.join(", ");
-        contentInput.value = note.content;
-        noteIdInput.value = note.id;
-        
-        // Show form, hide other views
-        noteForm.classList.remove('hidden');
-        noteView.classList.add('hidden');
-        notesListContainer.classList.add('hidden');
-      }
-
-      // View a note
-      function viewNote(note) {
-        viewingNote = note;
-        isCreating = false;
-        isEditing = false;
-        
-        // Update view
-        viewTitle.textContent = note.title;
-        
-        // Render categories
-        viewCategories.innerHTML = '';
-        note.categories.forEach(category => {
-          const badge = document.createElement('span');
-          badge.className = 'inline-block px-2 py-1 text-xs font-medium bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 rounded-md';
-          badge.textContent = category;
-          viewCategories.appendChild(badge);
-        });
-        
-        // Render markdown content
-        viewContent.innerHTML = renderMarkdown(note.content);
-        
-        // Show view, hide other views
-        noteView.classList.remove('hidden');
-        noteForm.classList.add('hidden');
-        notesListContainer.classList.add('hidden');
-      }
-
-      // Cancel editing/creating
-      function cancelEdit() {
-        isCreating = false;
-        isEditing = false;
-        currentNote = null;
-        
-        // Hide form, show notes list
-        noteForm.classList.add('hidden');
-        notesListContainer.classList.remove('hidden');
-      }
-
-      // Save a note
-      function saveNote(event) {
-        event.preventDefault();
-        
-        const title = titleInput.value;
-        const content = contentInput.value;
-        const categoriesString = categoriesInput.value;
-        const categories = categoriesString
-          .split(',')
-          .map(cat => cat.trim())
-          .filter(cat => cat !== '');
-        
-        if (isCreating) {
-          const newNote = {
-            ...currentNote,
-            title,
-            content,
-            categories,
-            updated_at: new Date().toISOString(),
-          };
-          notes.push(newNote);
-        } else if (isEditing) {
-          notes = notes.map(note => 
-            note.id === currentNote.id
-              ? {
-                  ...note,
-                  title,
-                  content,
-                  categories,
-                  updated_at: new Date().toISOString(),
-                }
-              : note
-          );
-        }
-        
-        // Reset state
-        isCreating = false;
-        isEditing = false;
-        currentNote = null;
-        
-        // Update UI
-        renderCategories();
-        renderNotesList();
-        
-        // Hide form, show notes list
-        noteForm.classList.add('hidden');
-        notesListContainer.classList.remove('hidden');
-      }
-
-      // Simple markdown renderer
-      function renderMarkdown(content) {
-        const lines = content.split('\n');
-        let html = '';
-        let inCodeBlock = false;
-        
-        lines.forEach(line => {
-          if (line.startsWith('```')) {
-            inCodeBlock = !inCodeBlock;
-            html += inCodeBlock 
-              ? '<pre class="bg-gray-100 dark:bg-gray-800 p-2 rounded my-2 overflow-x-auto"><code>' 
-              : '</code></pre>';
-          } else if (inCodeBlock) {
-            html += line + '\n';
-          } else if (line.startsWith('# ')) {
-            html += `<h1 class="text-2xl font-bold mt-4 mb-2">${line.substring(2)}</h1>`;
-          } else if (line.startsWith('## ')) {
-            html += `<h2 class="text-xl font-bold mt-4 mb-2">${line.substring(3)}</h2>`;
-          } else if (line.startsWith('### ')) {
-            html += `<h3 class="text-lg font-bold mt-3 mb-1">${line.substring(4)}</h3>`;
-          } else if (line.startsWith('- ')) {
-            html += `<li class="ml-4">${line.substring(2)}</li>`;
-          } else if (line.includes('**')) {
-            const parts = line.split('**');
-            let formattedLine = '<p class="my-2">';
-            parts.forEach((part, i) => {
-              formattedLine += i % 2 === 0 ? part : `<strong>${part}</strong>`;
-            });
-            formattedLine += '</p>';
-            html += formattedLine;
-          } else if (line.trim() === '') {
-            html += '<br>';
-          } else {
-            html += `<p class="my-2">${line}</p>`;
-          }
-        });
-        
-        return html;
-      }
-
-      // Toggle mobile menu
-      function toggleMobileMenu() {
-        if (sidebar.classList.contains('-translate-x-full')) {
-          sidebar.classList.remove('-translate-x-full');
-        } else {
-          sidebar.classList.add('-translate-x-full');
-        }
-      }
-
-      // Close mobile menu
-      function closeMobileMenu() {
-        sidebar.classList.add('-translate-x-full');
-      }
-
-      // Event listeners
-      mobileMenuButton.addEventListener('click', toggleMobileMenu);
-      createNoteButton.addEventListener('click', createNote);
-      cancelButton.addEventListener('click', cancelEdit);
-      noteEditorForm.addEventListener('submit', saveNote);
-      backButton.addEventListener('click', () => {
-        noteView.classList.add('hidden');
-        notesListContainer.classList.remove('hidden');
-      });
-      editViewButton.addEventListener('click', () => {
-        if (viewingNote) {
-          editNote(viewingNote);
-        }
-      });
-      searchInput.addEventListener('input', (e) => {
-        searchQuery = e.target.value;
-        renderNotesList();
-      });
-      // Theme toggle is now handled by dark_mode.js
-
-      // Initialize
-      renderCategories();
-      renderNotesList();
-    </script>
-  </body>
-</html>
+    </div>
+  </footer>
+</body>
