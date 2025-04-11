@@ -4,6 +4,13 @@
   </.error>
   <.input field={f[:title]} type="text" label="Title" />
   <.input field={f[:body]} type="text" label="Body" />
+  <.input
+    field={f[:categories]}
+    type="select"
+    multiple={true}
+    label="categories"
+    options={@categories}
+  />
   <:actions>
     <.button>Save Note</.button>
   </:actions>

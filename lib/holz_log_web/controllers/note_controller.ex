@@ -4,14 +4,15 @@ defmodule HolzLogWeb.NoteController do
   alias HolzLog.Log
   alias HolzLog.Log.Note
 
-  def index(conn, _params) do
+  def index(conn, params) do
     notes = Log.list_notes()
     render(conn, :index, notes: notes)
   end
 
   def new(conn, _params) do
     changeset = Log.change_note(%Note{})
-    render(conn, :new, changeset: changeset)
+    categories = Log.list_categories() |> Enum.map(fn c -> {c.title, c.id} end)
+    render(conn, :new, changeset: changeset, categories: categories)
   end
 
   def create(conn, %{"note" => note_params}) do
@@ -22,7 +23,8 @@ defmodule HolzLogWeb.NoteController do
         |> redirect(to: ~p"/notes/#{note}")
 
       {:error, %Ecto.Changeset{} = changeset} ->
-        render(conn, :new, changeset: changeset)
+        categories = Log.list_categories() |> Enum.map(fn c -> {c.title, c.id} end)
+        render(conn, :new, changeset: changeset, categories: categories)
     end
   end
 
@@ -34,7 +36,9 @@ defmodule HolzLogWeb.NoteController do
   def edit(conn, %{"id" => id}) do
     note = Log.get_note!(id)
     changeset = Log.change_note(note)
-    render(conn, :edit, note: note, changeset: changeset)
+    categories = Log.list_categories() |> Enum.map(fn c -> {c.title, c.id} end)
+    IO.inspect(categories)
+    render(conn, :edit, note: note, changeset: changeset, categories: categories)
   end
 
   def update(conn, %{"id" => id, "note" => note_params}) do

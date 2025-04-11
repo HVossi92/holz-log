@@ -441,6 +441,24 @@ defmodule HolzLogWeb.CoreComponents do
     """
   end
 
+  def footer(assigns) do
+    ~H"""
+    <!-- Footer with Privacy Policy Link -->
+    <footer class="py-3 px-6 bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 text-center text-sm text-gray-500 dark:text-gray-400">
+      <div class="mx-auto flex flex-col md:flex-row justify-between items-center">
+        <div class="md:mt-0">
+          <a
+            href="privacy.html"
+            class="hover:text-gray-700 dark:hover:text-gray-300 transition-colors"
+          >
+            Privacy Policy
+          </a>
+        </div>
+      </div>
+    </footer>
+    """
+  end
+
   @doc ~S"""
   Renders a table with generic styling.
 
@@ -473,23 +491,60 @@ defmodule HolzLogWeb.CoreComponents do
       end
 
     ~H"""
-    <div class="overflow-y-auto px-4 sm:overflow-visible sm:px-0">
-      <table class="w-[40rem] mt-11 sm:w-full">
-        <thead class="text-sm text-left leading-6 text-zinc-500">
-          <tr>
-            <th :for={col <- @col} class="p-0 pb-4 pr-6 font-normal">{col[:label]}</th>
-            <th :if={@action != []} class="relative p-0 pb-4">
-              <span class="sr-only">{gettext("Actions")}</span>
-            </th>
-          </tr>
-        </thead>
+    <div>
+      <table class="w-[40rem]  sm:w-full">
         <tbody
           id={@id}
           phx-update={match?(%Phoenix.LiveView.LiveStream{}, @rows) && "stream"}
-          class="relative divide-y divide-zinc-100 border-t border-zinc-200 text-sm leading-6 text-zinc-700"
+          class="relative divide-y divide-zinc-100 text-sm leading-6 text-zinc-700"
         >
-          <tr :for={row <- @rows} id={@row_id && @row_id.(row)} class="group hover:bg-zinc-50">
-            <td
+          <tr :for={row <- @rows} id={@row_id && @row_id.(row)} class="group hover:bg-zin">
+            <%!-- {inspect(row.categories)} --%>
+            <td>
+              <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-4 hover:shadow-md transition-shadow">
+                <div class="flex justify-between items-start">
+                  <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-100 hover:text-blue-600 dark:hover:text-blue-400 cursor-pointer">
+                    {row.title}
+                  </h3>
+                  <div class="flex space-x-1">
+                    <a
+                      href={"/notes/#{row.id}/edit"}
+                      class="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 p-1"
+                    >
+                      <.icon name="hero-pencil-square" class="h-4 w-4" />
+                      <span class="sr-only">Edit</span>
+                    </a>
+                    <.link
+                      href={"/notes/#{row.id}"}
+                      method="delete"
+                      data-confirm="Are you sure you want to delete this note?"
+                      class="text-gray-500 dark:text-gray-400 hover:text-red-600 dark:hover:text-red-400 p-1"
+                    >
+                      <.icon name="hero-trash" class="h-4 w-4" />
+                      <span class="sr-only">Delete</span>
+                    </.link>
+                  </div>
+                </div>
+
+                <div class="flex flex-wrap gap-1 mt-2">
+                  <%= for category <- row.categories do %>
+                    <span class="inline-block px-2 py-1 text-xs font-medium bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 rounded-md mr-1 mb-1">
+                      {category.title}
+                    </span>
+                  <% end %>
+                </div>
+
+                <p class="mt-2 text-gray-600 dark:text-gray-300 line-clamp-2 cursor-pointer">
+                  {row.body}
+                </p>
+
+                <div class="mt-2 text-xs text-gray-500 dark:text-gray-400">
+                  Updated {Calendar.strftime(DateTime.to_date(row.updated_at), "%d.%m.%Y")}
+                </div>
+              </div>
+            </td>
+
+            <%!-- <td
               :for={{col, i} <- Enum.with_index(@col)}
               phx-click={@row_click && @row_click.(row)}
               class={["relative p-0", @row_click && "hover:cursor-pointer"]}
@@ -511,7 +566,7 @@ defmodule HolzLogWeb.CoreComponents do
                   {render_slot(action, @row_item.(row))}
                 </span>
               </div>
-            </td>
+            </td> --%>
           </tr>
         </tbody>
       </table>
@@ -535,14 +590,11 @@ defmodule HolzLogWeb.CoreComponents do
 
   def list(assigns) do
     ~H"""
-    <div class="mt-14">
-      <dl class="-my-4 divide-y divide-zinc-100">
-        <div :for={item <- @item} class="flex gap-4 py-4 text-sm leading-6 sm:gap-8">
-          <dt class="w-1/4 flex-none text-zinc-500">{item.title}</dt>
-          <dd class="text-zinc-700">{render_slot(item)}</dd>
-        </div>
-      </dl>
-    </div>
+    <dl>
+      <div :for={item <- @item}>
+        <dd>{render_slot(item)}</dd>
+      </div>
+    </dl>
     """
   end
 

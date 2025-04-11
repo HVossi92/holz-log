@@ -1,24 +1,54 @@
-<.header>
-  Listing Notes
-  <:actions>
-    <.link href={~p"/notes/new"}>
-      <.button>New Note</.button>
-    </.link>
-  </:actions>
-</.header>
+<div class="flex flex-row h-[calc(100vh-7rem)]">
+  <aside class="bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 w-64 flex-shrink-0 hidden md:flex md:flex-col">
+    <div class="p-4 flex-shrink-0">
+      <h2 class="font-semibold text-gray-600 dark:text-gray-400 uppercase text-xs tracking-wider mb-3">
+        Categories
+      </h2>
 
-<.table id="notes" rows={@notes} row_click={&JS.navigate(~p"/notes/#{&1}")}>
-  <:col :let={note} label="Title">{note.title}</:col>
-  <:col :let={note} label="Body">{note.body}</:col>
-  <:action :let={note}>
-    <div class="sr-only">
-      <.link navigate={~p"/notes/#{note}"}>Show</.link>
+      <.list>
+        <%!-- <:item title="Title">{@post.title}</:item>
+        <:item title="Views">{@post.views}</:item> --%>
+        <:item title="Test">
+          <button class="w-full text-left px-3 py-2 rounded-md text-sm font-medium bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-gray-100">
+            All Notes
+          </button>
+        </:item>
+        <:item title="Test">
+          <button class="w-full text-left px-3 py-2 rounded-md text-sm font-medium text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-gray-100">
+            Phoenix
+          </button>
+        </:item>
+      </.list>
     </div>
-    <.link navigate={~p"/notes/#{note}/edit"}>Edit</.link>
-  </:action>
-  <:action :let={note}>
-    <.link href={~p"/notes/#{note}"} method="delete" data-confirm="Are you sure?">
-      Delete
-    </.link>
-  </:action>
-</.table>
+    <div class="flex-grow"></div>
+  </aside>
+  <!-- Main content area with flex layout -->
+  <div class="flex flex-col flex-1 pl-4">
+    <!-- Table container - takes remaining width and height -->
+    <div class="flex flex-col flex-1">
+      <h2 class="text-xl font-bold text-gray-900 dark:text-gray-100 py-3 flex-shrink-0">
+        All Notes
+        <span class="text-sm font-normal text-gray-500 dark:text-gray-400 ml-2">
+          ({length(@notes)} notes)
+        </span>
+      </h2>
+      <div class="flex-1 overflow-auto pb-2">
+        <.table id="notes" rows={@notes} row_click={&JS.navigate(~p"/notes/#{&1}")}>
+          <:col :let={note} label="Title">{note.title}</:col>
+          <:col :let={note} label="Body">{note.body}</:col>
+          <:action :let={note}>
+            <div class="sr-only">
+              <.link navigate={~p"/notes/#{note}"}>Show</.link>
+            </div>
+            <.link navigate={~p"/notes/#{note}/edit"}>Edit</.link>
+          </:action>
+          <:action :let={note}>
+            <.link href={~p"/notes/#{note}"} method="delete" data-confirm="Are you sure?">
+              Delete
+            </.link>
+          </:action>
+        </.table>
+      </div>
+    </div>
+  </div>
+</div>

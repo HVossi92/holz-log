@@ -17,8 +17,23 @@ defmodule HolzLog.Log do
       [%Note{}, ...]
 
   """
-  def list_notes do
-    Repo.all(Note)
+  def list_notes(search) do
+    if search do
+      search_pattern = "%#{search}%"
+
+      Note
+      |> preload([:categories])
+      |> where([n], fragment("? LIKE ? COLLATE NOCASE", n.title, ^search_pattern))
+      |> Repo.all()
+    else
+      Note
+      |> preload([:categories])
+      |> Repo.all()
+    end
+  end
+
+  def list_notes() do
+    list_notes(nil)
   end
 
   @doc """
@@ -35,7 +50,7 @@ defmodule HolzLog.Log do
       ** (Ecto.NoResultsError)
 
   """
-  def get_note!(id), do: Repo.get!(Note, id)
+  def get_note!(id), do: Note |> Repo.get!(id) |> Repo.preload(:categories)
 
   @doc """
   Creates a note.

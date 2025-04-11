@@ -80,7 +80,7 @@ defmodule HolzLog.LogTest do
       valid_attrs = %{name: "some name"}
 
       assert {:ok, %Category{} = category} = Log.create_category(valid_attrs)
-      assert category.name == "some name"
+      assert category.title == "some name"
     end
 
     test "create_category/1 with invalid data returns error changeset" do
@@ -92,7 +92,7 @@ defmodule HolzLog.LogTest do
       update_attrs = %{name: "some updated name"}
 
       assert {:ok, %Category{} = category} = Log.update_category(category, update_attrs)
-      assert category.name == "some updated name"
+      assert category.title == "some updated name"
     end
 
     test "update_category/2 with invalid data returns error changeset" do

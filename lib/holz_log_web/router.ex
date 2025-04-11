@@ -8,6 +8,7 @@ defmodule HolzLogWeb.Router do
     plug :put_root_layout, html: {HolzLogWeb.Layouts, :root}
     plug :protect_from_forgery
     plug :put_secure_browser_headers
+    plug HolzLogWeb.Plugs.FetchCategories
   end
 
   pipeline :api do
@@ -18,6 +19,7 @@ defmodule HolzLogWeb.Router do
     pipe_through :browser
 
     # get "/", PageController, :home
+    get "/home", PageController, :home
     get "/", NoteController, :index
     resources "/categories", CategoryController
     resources "/notes", NoteController

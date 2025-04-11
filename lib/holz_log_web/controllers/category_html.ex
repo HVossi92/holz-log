@@ -1,4 +1,5 @@
 defmodule HolzLogWeb.CategoryHTML do
+  import HolzLogWeb.CategoriesTable
   use HolzLogWeb, :html
 
   embed_templates "category_html/*"

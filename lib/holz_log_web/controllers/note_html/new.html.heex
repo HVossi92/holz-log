@@ -1,8 +1,10 @@
-<.header>
-  New Note
-  <:subtitle>Use this form to manage note records in your database.</:subtitle>
-</.header>
+<div class="p-4">
+  <.header>
+    New Note
+    <:subtitle>Use this form to manage note records in your database.</:subtitle>
+  </.header>
 
-<.note_form changeset={@changeset} action={~p"/notes"} />
+  <.note_form changeset={@changeset} action={~p"/notes"} categories={@categories} />
 
-<.back navigate={~p"/notes"}>Back to notes</.back>
+  <.back navigate={~p"/notes"}>Back to notes</.back>
+</div>

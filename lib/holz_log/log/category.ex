@@ -3,7 +3,7 @@ defmodule HolzLog.Log.Category do
   import Ecto.Changeset
 
   schema "categories" do
-    field :name, :string
+    field :title, :string
     many_to_many :notes, HolzLog.Log.Note, join_through: "note_has_category"
 
     timestamps(type: :utc_datetime)
@@ -12,8 +12,8 @@ defmodule HolzLog.Log.Category do
   @doc false
   def changeset(category, attrs) do
     category
-    |> cast(attrs, [:name])
-    |> validate_required([:name])
-    |> validate_length(:name, min: 1, max: 64)
+    |> cast(attrs, [:title])
+    |> validate_required([:title])
+    |> validate_length(:title, min: 1, max: 64)
   end
 end
