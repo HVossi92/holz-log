@@ -17,7 +17,8 @@ defmodule HolzLogWeb.Router do
   scope "/", HolzLogWeb do
     pipe_through :browser
 
-    get "/", PageController, :home
+    # get "/", PageController, :home
+    get "/", NoteController, :index
     resources "/categories", CategoryController
     resources "/notes", NoteController
   end

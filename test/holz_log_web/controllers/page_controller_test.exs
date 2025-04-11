@@ -3,6 +3,6 @@ defmodule HolzLogWeb.PageControllerTest do
 
   test "GET /", %{conn: conn} do
     conn = get(conn, ~p"/")
-    assert html_response(conn, 200) =~ "Micro-Blog"
+    assert html_response(conn, 200) =~ "Notes"
   end
 end
