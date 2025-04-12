@@ -20,6 +20,8 @@ defmodule HolzLogWeb.Router do
 
     get "/privacy", PageController, :privacy
     get "/", NoteController, :index
+    get "/sitemap.xml", SitemapController, :index
+    get "/robots.txt", PageController, :robots
     resources "/categories", CategoryController
     resources "/notes", NoteController
   end

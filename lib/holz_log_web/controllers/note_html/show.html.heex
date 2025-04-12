@@ -1,3 +1,18 @@
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "<%= @note.title %>",
+    "description": "<%= String.slice(@note.body || "", 0, 160) %>",
+    "datePublished": "<%= @note.inserted_at %>",
+    "dateModified": "<%= @note.updated_at %>",
+    "author": {
+      "@type": "Person",
+      "name": "Holz Log User"
+    }
+  }
+</script>
+
 <.header>
   Note {@note.id}
   <:subtitle>This is a note record from your database.</:subtitle>

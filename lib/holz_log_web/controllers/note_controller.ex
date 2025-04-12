@@ -16,7 +16,21 @@ defmodule HolzLogWeb.NoteController do
 
     notes = Log.list_notes(search, category_id)
     categories = Log.list_categories()
-    render(conn, :index, notes: notes, categories: categories)
+
+    title =
+      if category_id,
+        do: "Notes in #{Enum.find(categories, &(&1.id == category_id)).title}",
+        else: "All Notes"
+
+    meta_desc =
+      if search, do: "Search results for '#{search}'", else: "Browse all your notes and logs"
+
+    conn
+    |> assign(:page_title, title)
+    |> assign(:meta_description, "#{meta_desc} - Holz Log Notes Management")
+    |> assign(:meta_keywords, "notes, logs, organization, holz log")
+    |> assign(:canonical_url, url(~p"/notes"))
+    |> render(:index, notes: notes, categories: categories)
   end
 
   def new(conn, _params) do
@@ -40,7 +54,29 @@ defmodule HolzLogWeb.NoteController do
 
   def show(conn, %{"id" => id}) do
     note = Log.get_note!(id)
-    render(conn, :show, note: note)
+
+    # Create a meaningful title and description from the note content
+    title = "Note: #{String.slice(note.title || "", 0, 60)}"
+
+    # Get first 160 chars of content for meta description
+    content_preview =
+      note.content
+      |> String.slice(0, 160)
+      |> String.replace(~r/\s+/, " ")
+      |> String.trim()
+
+    # Generate keywords from categories
+    keywords =
+      note.categories
+      |> Enum.map_join(", ", fn c -> c.title end)
+      |> then(fn cat_str -> "notes, #{cat_str}, holz log" end)
+
+    conn
+    |> assign(:page_title, title)
+    |> assign(:meta_description, content_preview)
+    |> assign(:meta_keywords, keywords)
+    |> assign(:canonical_url, url(~p"/notes/#{note}"))
+    |> render(:show, note: note)
   end
 
   def edit(conn, %{"id" => id}) do

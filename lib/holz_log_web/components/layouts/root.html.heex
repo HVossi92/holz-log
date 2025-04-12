@@ -4,7 +4,51 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="csrf-token" content={get_csrf_token()} />
-    <.live_title default="HolzLog" suffix=" · Phoenix Framework">
+    <!-- SEO Meta Tags -->
+    <meta
+      name="description"
+      content={
+        assigns[:meta_description] ||
+          "Holz Log - An application for managing and organizing notes"
+      }
+    />
+    <meta
+      name="keywords"
+      content={assigns[:meta_keywords] || "notes, organization, logging, holz log"}
+    />
+    <meta name="author" content="Holz Log" />
+    <meta name="robots" content="index, follow" />
+    
+<!-- Open Graph Tags for social sharing -->
+    <meta property="og:title" content={assigns[:page_title] || "HolzLog"} />
+    <meta
+      property="og:description"
+      content={
+        assigns[:meta_description] ||
+          "Holz Log - An application for managing and organizing notes"
+      }
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={Phoenix.Controller.current_url(assigns[:conn] || %{})} />
+    
+<!-- Twitter Card data -->
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content={assigns[:page_title] || "HolzLog"} />
+    <meta
+      name="twitter:description"
+      content={
+        assigns[:meta_description] ||
+          "Holz Log - An application for managing and organizing notes"
+      }
+    />
+    
+<!-- Canonical URL -->
+    <link
+      rel="canonical"
+      href={assigns[:canonical_url] || Phoenix.Controller.current_url(assigns[:conn] || %{})}
+    />
+
+    <.live_title default="HolzLog" suffix=" · Notes Management">
       {assigns[:page_title]}
     </.live_title>
     <link phx-track-static rel="stylesheet" href={~p"/assets/app.css"} />
