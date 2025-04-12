@@ -17,23 +17,31 @@ defmodule HolzLog.Log do
       [%Note{}, ...]
 
   """
-  def list_notes(search) do
-    if search do
-      search_pattern = "%#{search}%"
+  def list_notes(search \\ nil, category_id \\ nil) do
+    IO.puts("list_notes")
 
+    search_pattern = "%#{search}%"
+    IO.inspect(category_id)
+
+    base_query =
       Note
+      |> join(:left, [n], c in assoc(n, :categories))
       |> preload([:categories])
-      |> where([n], fragment("? LIKE ? COLLATE NOCASE", n.title, ^search_pattern))
-      |> Repo.all()
+      |> where(
+        [n, c],
+        fragment("? LIKE ? COLLATE NOCASE", n.title, ^search_pattern) or
+          fragment("? LIKE ? COLLATE NOCASE", n.body, ^search_pattern) or
+          fragment("? LIKE ? COLLATE NOCASE", c.title, ^search_pattern)
+      )
+
+    # Only add category filter if category_id is provided and not nil
+    if category_id !== nil and category_id > -1 do
+      base_query
+      |> where([n, c], c.id == ^category_id)
     else
-      Note
-      |> preload([:categories])
-      |> Repo.all()
+      base_query
     end
-  end
-
-  def list_notes() do
-    list_notes(nil)
+    |> Repo.all()
   end
 
   @doc """

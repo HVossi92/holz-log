@@ -1,54 +1,104 @@
-<div class="flex flex-row h-[calc(100vh-7rem)]">
-  <aside class="bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 w-64 flex-shrink-0 hidden md:flex md:flex-col">
-    <div class="p-4 flex-shrink-0">
-      <h2 class="font-semibold text-gray-600 dark:text-gray-400 uppercase text-xs tracking-wider mb-3">
-        Categories
+<!-- Improved layout to fix sidebar and scrolling issues -->
+<div class="flex flex-col md:flex-row h-full">
+  <!-- Sidebar for categories - Hidden on mobile, always visible on md+ screens -->
+  <aside class="bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 w-64 flex-shrink-0 hidden md:block">
+    <div class="p-4">
+      <h2 class="font-semibold text-gray-600 dark:text-gray-400 uppercase text-xs tracking-wider mb-3 flex justify-between items-center">
+        <span>Categories</span>
+        <a
+          href={~p"/categories/new"}
+          class="inline-flex items-center justify-center p-2 w-8 h-8 bg-blue-600 hover:bg-blue-700 text-white rounded-md"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-4 w-4"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M12 4v16m8-8H4"
+            />
+          </svg>
+        </a>
       </h2>
-
       <.list>
-        <%!-- <:item title="Title">{@post.title}</:item>
-        <:item title="Views">{@post.views}</:item> --%>
-        <:item title="Test">
-          <button class="w-full text-left px-3 py-2 rounded-md text-sm font-medium bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-gray-100">
-            All Notes
-          </button>
+        <:item title="All">
+          <.form :let={_} for={%{}} action={~p"/notes"} method="get" class="relative">
+            <input
+              hidden
+              value={-1}
+              type="text"
+              name="category_id"
+              class="pl-8 w-full md:w-64 h-10 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400"
+            />
+            <%= if Integer.to_string(-1) === @conn.query_params["category_id"] or nil === @conn.query_params["category_id"] do %>
+              <button class="w-full text-left px-3 py-2 rounded-md text-sm font-medium bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-gray-100">
+                All notes
+              </button>
+            <% else %>
+              <button class="w-full text-left px-3 py-2 rounded-md text-sm font-medium text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-gray-100">
+                All notes
+              </button>
+            <% end %>
+          </.form>
         </:item>
-        <:item title="Test">
-          <button class="w-full text-left px-3 py-2 rounded-md text-sm font-medium text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-gray-100">
-            Phoenix
-          </button>
+      </.list>
+
+      <.list :for={category <- @categories}>
+        <:item title={category.title}>
+          <.form :let={_} for={%{}} action={~p"/notes"} method="get" class="relative">
+            <input
+              hidden
+              value={category.id}
+              type="text"
+              name="category_id"
+              class="pl-8 w-full md:w-64 h-10 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400"
+            />
+            <%= if Integer.to_string(category.id) === @conn.query_params["category_id"] do %>
+              <button class="w-full text-left px-3 py-2 rounded-md text-sm font-medium bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-gray-100">
+                {category.id} {category.title}
+              </button>
+            <% else %>
+              <button class="w-full text-left px-3 py-2 rounded-md text-sm font-medium text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-gray-100">
+                {category.id} {category.title}
+              </button>
+            <% end %>
+          </.form>
         </:item>
       </.list>
     </div>
-    <div class="flex-grow"></div>
   </aside>
-  <!-- Main content area with flex layout -->
-  <div class="flex flex-col flex-1 pl-4">
-    <!-- Table container - takes remaining width and height -->
-    <div class="flex flex-col flex-1">
-      <h2 class="text-xl font-bold text-gray-900 dark:text-gray-100 py-3 flex-shrink-0">
-        All Notes
-        <span class="text-sm font-normal text-gray-500 dark:text-gray-400 ml-2">
-          ({length(@notes)} notes)
-        </span>
-      </h2>
-      <div class="flex-1 overflow-auto pb-2">
-        <.table id="notes" rows={@notes} row_click={&JS.navigate(~p"/notes/#{&1}")}>
-          <:col :let={note} label="Title">{note.title}</:col>
-          <:col :let={note} label="Body">{note.body}</:col>
-          <:action :let={note}>
-            <div class="sr-only">
-              <.link navigate={~p"/notes/#{note}"}>Show</.link>
-            </div>
-            <.link navigate={~p"/notes/#{note}/edit"}>Edit</.link>
-          </:action>
-          <:action :let={note}>
-            <.link href={~p"/notes/#{note}"} method="delete" data-confirm="Are you sure?">
-              Delete
-            </.link>
-          </:action>
-        </.table>
-      </div>
+  
+<!-- Main content area with notes table -->
+  <div class="flex flex-col flex-1 px-4 py-2 overflow-hidden">
+    <h2 class="text-xl font-bold text-gray-900 dark:text-gray-100 py-3 flex-shrink-0">
+      All Notes
+      <span class="text-sm font-normal text-gray-500 dark:text-gray-400 ml-2">
+        ({length(@notes)} notes)
+      </span>
+    </h2>
+    
+<!-- Scrollable table container -->
+    <div class="overflow-y-auto flex-1">
+      <.table id="notes" rows={@notes} row_click={&JS.navigate(~p"/notes/#{&1}")}>
+        <:col :let={note} label="Title">{note.title}</:col>
+        <:col :let={note} label="Body">{note.body}</:col>
+        <:action :let={note}>
+          <div class="sr-only">
+            <.link navigate={~p"/notes/#{note}"}>Show</.link>
+          </div>
+          <.link navigate={~p"/notes/#{note}/edit"}>Edit</.link>
+        </:action>
+        <:action :let={note}>
+          <.link href={~p"/notes/#{note}"} method="delete" data-confirm="Are you sure?">
+            Delete
+          </.link>
+        </:action>
+      </.table>
     </div>
   </div>
 </div>

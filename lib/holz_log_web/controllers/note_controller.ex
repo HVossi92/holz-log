@@ -4,9 +4,19 @@ defmodule HolzLogWeb.NoteController do
   alias HolzLog.Log
   alias HolzLog.Log.Note
 
-  def index(conn, params) do
-    notes = Log.list_notes()
-    render(conn, :index, notes: notes)
+  def index(conn, _params) do
+    search = conn.query_params["search"]
+    category = conn.query_params["category_id"]
+
+    category_id =
+      case category do
+        nil -> nil
+        _ -> String.to_integer(category)
+      end
+
+    notes = Log.list_notes(search, category_id)
+    categories = Log.list_categories()
+    render(conn, :index, notes: notes, categories: categories)
   end
 
   def new(conn, _params) do
