@@ -8,6 +8,8 @@ defmodule HolzLogWeb.NoteHTML do
   """
   attr :changeset, Ecto.Changeset, required: true
   attr :action, :string, required: true
+  attr :categories, :list, required: true
+  attr :selected_categories, :list, required: false, default: []
 
   def note_form(assigns)
 end

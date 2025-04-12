@@ -50,7 +50,11 @@ defmodule HolzLogWeb.CoreComponents do
       data-cancel={JS.exec(@on_cancel, "phx-remove")}
       class="relative z-50 hidden"
     >
-      <div id={"#{@id}-bg"} class="bg-zinc-50/90 fixed inset-0 transition-opacity" aria-hidden="true" />
+      <div
+        id={"#{@id}-bg"}
+        class="bg-zinc-50/90 fixed inset-0 transition-opacity dark:bg-zinc-900/90"
+        aria-hidden="true"
+      />
       <div
         class="fixed inset-0 overflow-y-auto"
         aria-labelledby={"#{@id}-title"}
@@ -66,7 +70,7 @@ defmodule HolzLogWeb.CoreComponents do
               phx-window-keydown={JS.exec("data-cancel", to: "##{@id}")}
               phx-key="escape"
               phx-click-away={JS.exec("data-cancel", to: "##{@id}")}
-              class="shadow-zinc-700/10 ring-zinc-700/10 relative hidden rounded-2xl bg-white p-14 shadow-lg ring-1 transition"
+              class="shadow-zinc-700/10 ring-zinc-700/10 relative hidden rounded-2xl bg-white p-14 shadow-lg ring-1 transition dark:bg-zinc-800 dark:ring-zinc-700/30 dark:shadow-zinc-700/30"
             >
               <div class="absolute top-6 right-5">
                 <button
@@ -116,8 +120,10 @@ defmodule HolzLogWeb.CoreComponents do
       role="alert"
       class={[
         "fixed top-2 right-2 mr-2 w-80 sm:w-96 z-50 rounded-lg p-3 ring-1",
-        @kind == :info && "bg-emerald-50 text-emerald-800 ring-emerald-500 fill-cyan-900",
-        @kind == :error && "bg-rose-50 text-rose-900 shadow-md ring-rose-500 fill-rose-900"
+        @kind == :info &&
+          "bg-emerald-50 text-emerald-800 ring-emerald-500 fill-cyan-900 dark:bg-emerald-900/20 dark:text-emerald-300 dark:ring-emerald-600",
+        @kind == :error &&
+          "bg-rose-50 text-rose-900 shadow-md ring-rose-500 fill-rose-900 dark:bg-rose-900/20 dark:text-rose-300 dark:ring-rose-600"
       ]}
       {@rest}
     >
@@ -201,14 +207,14 @@ defmodule HolzLogWeb.CoreComponents do
 
   def simple_form(assigns) do
     ~H"""
-    <.form :let={f} for={@for} as={@as} {@rest}>
-      <div class="mt-10 space-y-8 bg-white">
+    <div class="p-8">
+      <.form :let={f} for={@for} as={@as} {@rest}>
         {render_slot(@inner_block, f)}
         <div :for={action <- @actions} class="mt-2 flex items-center justify-between gap-6">
           {render_slot(action, f)}
         </div>
-      </div>
-    </.form>
+      </.form>
+    </div>
     """
   end
 
@@ -231,7 +237,7 @@ defmodule HolzLogWeb.CoreComponents do
     <button
       type={@type}
       class={[
-        "phx-submit-loading:opacity-75 rounded-lg bg-zinc-900 hover:bg-zinc-700 py-2 px-3",
+        "phx-submit-loading:opacity-75 rounded-lg bg-zinc-900 hover:bg-zinc-700 py-2 px-3 dark:bg-zinc-700 dark:hover:bg-zinc-600",
         "text-sm font-semibold leading-6 text-white active:text-white/80",
         @class
       ]}
@@ -310,7 +316,7 @@ defmodule HolzLogWeb.CoreComponents do
 
     ~H"""
     <div>
-      <label class="flex items-center gap-4 text-sm leading-6 text-zinc-600">
+      <label class="flex items-center gap-4 text-sm leading-6 text-zinc-600 dark:text-zinc-300">
         <input type="hidden" name={@name} value="false" disabled={@rest[:disabled]} />
         <input
           type="checkbox"
@@ -318,7 +324,7 @@ defmodule HolzLogWeb.CoreComponents do
           name={@name}
           value="true"
           checked={@checked}
-          class="rounded border-zinc-300 text-zinc-900 focus:ring-0"
+          class="rounded border-zinc-300 text-zinc-900 focus:ring-0 dark:border-zinc-600 dark:bg-zinc-700"
           {@rest}
         />
         {@label}
@@ -335,7 +341,7 @@ defmodule HolzLogWeb.CoreComponents do
       <select
         id={@id}
         name={@name}
-        class="mt-2 block w-full rounded-md border border-gray-300 bg-white shadow-sm focus:border-zinc-400 focus:ring-0 sm:text-sm"
+        class="mt-2 block w-full rounded-md border border-gray-300 bg-white shadow-sm focus:border-zinc-400 focus:ring-0 sm:text-sm dark:bg-zinc-700 dark:border-zinc-600 dark:text-white"
         multiple={@multiple}
         {@rest}
       >
@@ -355,9 +361,11 @@ defmodule HolzLogWeb.CoreComponents do
         id={@id}
         name={@name}
         class={[
-          "mt-2 block w-full rounded-lg text-zinc-900 focus:ring-0 sm:text-sm sm:leading-6 min-h-[6rem]",
-          @errors == [] && "border-zinc-300 focus:border-zinc-400",
-          @errors != [] && "border-rose-400 focus:border-rose-400"
+          "mt-2 block w-full rounded-lg text-zinc-900 focus:ring-0 sm:text-sm sm:leading-6 min-h-[6rem] dark:bg-zinc-700 dark:text-white",
+          @errors == [] &&
+            "border-zinc-300 focus:border-zinc-400 dark:border-zinc-600 dark:focus:border-zinc-500",
+          @errors != [] &&
+            "border-rose-400 focus:border-rose-400 dark:border-rose-500 dark:focus:border-rose-500"
         ]}
         {@rest}
       >{Phoenix.HTML.Form.normalize_value("textarea", @value)}</textarea>
@@ -377,9 +385,11 @@ defmodule HolzLogWeb.CoreComponents do
         id={@id}
         value={Phoenix.HTML.Form.normalize_value(@type, @value)}
         class={[
-          "mt-2 block w-full rounded-lg text-zinc-900 focus:ring-0 sm:text-sm sm:leading-6",
-          @errors == [] && "border-zinc-300 focus:border-zinc-400",
-          @errors != [] && "border-rose-400 focus:border-rose-400"
+          "mt-2 block w-full rounded-lg text-zinc-900 focus:ring-0 sm:text-sm sm:leading-6 dark:bg-zinc-700 dark:text-white",
+          @errors == [] &&
+            "border-zinc-300 focus:border-zinc-400 dark:border-zinc-600 dark:focus:border-zinc-500",
+          @errors != [] &&
+            "border-rose-400 focus:border-rose-400 dark:border-rose-500 dark:focus:border-rose-500"
         ]}
         {@rest}
       />
@@ -396,7 +406,7 @@ defmodule HolzLogWeb.CoreComponents do
 
   def label(assigns) do
     ~H"""
-    <label for={@for} class="block text-sm font-semibold leading-6 text-zinc-800">
+    <label for={@for} class="block text-sm font-semibold leading-6 text-zinc-800 dark:text-zinc-200">
       {render_slot(@inner_block)}
     </label>
     """
@@ -409,7 +419,7 @@ defmodule HolzLogWeb.CoreComponents do
 
   def error(assigns) do
     ~H"""
-    <p class="mt-3 flex gap-3 text-sm leading-6 text-rose-600">
+    <p class="mt-3 flex gap-3 text-sm leading-6 text-rose-600 dark:text-rose-400">
       <.icon name="hero-exclamation-circle-mini" class="mt-0.5 h-5 w-5 flex-none" />
       {render_slot(@inner_block)}
     </p>
@@ -427,17 +437,19 @@ defmodule HolzLogWeb.CoreComponents do
 
   def header(assigns) do
     ~H"""
-    <header class={[@actions != [] && "flex items-center justify-between gap-6", @class]}>
-      <div>
-        <h1 class="text-lg font-semibold leading-8 text-zinc-800">
-          {render_slot(@inner_block)}
-        </h1>
-        <p :if={@subtitle != []} class="mt-2 text-sm leading-6 text-zinc-600">
-          {render_slot(@subtitle)}
-        </p>
-      </div>
-      <div class="flex-none">{render_slot(@actions)}</div>
-    </header>
+    <div class="pt-4 pl-4">
+      <header class={[@actions != [] && "flex items-center justify-between gap-6", @class]}>
+        <div>
+          <h1 class="text-lg font-semibold leading-8 text-zinc-800 dark:text-zinc-100">
+            {render_slot(@inner_block)}
+          </h1>
+          <p :if={@subtitle != []} class="mt-2 text-sm leading-6 text-zinc-600 dark:text-zinc-400">
+            {render_slot(@subtitle)}
+          </p>
+        </div>
+        <div class="flex-none">{render_slot(@actions)}</div>
+      </header>
+    </div>
     """
   end
 
@@ -492,28 +504,25 @@ defmodule HolzLogWeb.CoreComponents do
 
     ~H"""
     <div>
-      <table class="w-[40rem]  sm:w-full">
+      <table class="w-[40rem] sm:w-full">
         <tbody
           id={@id}
           phx-update={match?(%Phoenix.LiveView.LiveStream{}, @rows) && "stream"}
-          class="relative divide-y divide-zinc-100 text-sm leading-6 text-zinc-700"
+          class="relative divide-y divide-zinc-100 dark:divide-zinc-700 text-sm leading-6 text-zinc-700 dark:text-zinc-300"
         >
           <tr :for={row <- @rows} id={@row_id && @row_id.(row)} class="group hover:bg-zin">
-            <%!-- {inspect(row.categories)} --%>
             <td>
               <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-4 hover:shadow-md transition-shadow">
                 <div class="flex justify-between items-start">
-                  <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-100 hover:text-blue-600 dark:hover:text-blue-400 cursor-pointer">
-                    {row.title}
-                  </h3>
+                  <a
+                    href={"/notes/#{row.id}/edit"}
+                    class="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 p-1"
+                  >
+                    <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-100 hover:text-blue-600 dark:hover:text-blue-400 cursor-pointer">
+                      {row.title}
+                    </h3>
+                  </a>
                   <div class="flex space-x-1">
-                    <a
-                      href={"/notes/#{row.id}/edit"}
-                      class="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 p-1"
-                    >
-                      <.icon name="hero-pencil-square" class="h-4 w-4" />
-                      <span class="sr-only">Edit</span>
-                    </a>
                     <.link
                       href={"/notes/#{row.id}"}
                       method="delete"
@@ -543,30 +552,6 @@ defmodule HolzLogWeb.CoreComponents do
                 </div>
               </div>
             </td>
-
-            <%!-- <td
-              :for={{col, i} <- Enum.with_index(@col)}
-              phx-click={@row_click && @row_click.(row)}
-              class={["relative p-0", @row_click && "hover:cursor-pointer"]}
-            >
-              <div class="block py-4 pr-6">
-                <span class="absolute -inset-y-px right-0 -left-4 group-hover:bg-zinc-50 sm:rounded-l-xl" />
-                <span class={["relative", i == 0 && "font-semibold text-zinc-900"]}>
-                  {render_slot(col, @row_item.(row))}
-                </span>
-              </div>
-            </td>
-            <td :if={@action != []} class="relative w-14 p-0">
-              <div class="relative whitespace-nowrap py-4 text-right text-sm font-medium">
-                <span class="absolute -inset-y-px -right-4 left-0 group-hover:bg-zinc-50 sm:rounded-r-xl" />
-                <span
-                  :for={action <- @action}
-                  class="relative ml-4 font-semibold leading-6 text-zinc-900 hover:text-zinc-700"
-                >
-                  {render_slot(action, @row_item.(row))}
-                </span>
-              </div>
-            </td> --%>
           </tr>
         </tbody>
       </table>
@@ -613,7 +598,7 @@ defmodule HolzLogWeb.CoreComponents do
     <div class="mt-16">
       <.link
         navigate={@navigate}
-        class="text-sm font-semibold leading-6 text-zinc-900 hover:text-zinc-700"
+        class="text-sm font-semibold leading-6 text-zinc-900 hover:text-zinc-700 dark:text-zinc-300 dark:hover:text-zinc-100"
       >
         <.icon name="hero-arrow-left-solid" class="h-3 w-3" />
         {render_slot(@inner_block)}

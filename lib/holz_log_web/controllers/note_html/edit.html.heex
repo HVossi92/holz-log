@@ -3,6 +3,11 @@
   <:subtitle>Use this form to manage note records in your database.</:subtitle>
 </.header>
 
-<.note_form changeset={@changeset} action={~p"/notes/#{@note}"} categories={@categories} />
+<.note_form
+  changeset={@changeset}
+  action={~p"/notes/#{@note}"}
+  categories={@categories}
+  selected_categories={@selected_categories}
+/>
 
 <.back navigate={~p"/notes"}>Back to notes</.back>

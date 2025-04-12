@@ -5,7 +5,11 @@ defmodule HolzLog.Log.Note do
   schema "notes" do
     field :title, :string
     field :body, :string
-    many_to_many :categories, HolzLog.Log.Category, join_through: "note_has_category"
+
+    many_to_many :categories, HolzLog.Log.Category,
+      join_through: "note_has_category",
+      on_delete: :delete_all,
+      on_replace: :delete
 
     timestamps(type: :utc_datetime)
   end
@@ -17,7 +21,7 @@ defmodule HolzLog.Log.Note do
     |> validate_required([:title, :body])
     |> validate_length(:title, min: 1, max: 256)
     |> validate_length(:body, max: 32786)
-    |> put_assoc(:categories, parse_categories(attrs["categories"] || []))
+    |> put_assoc(:categories, parse_categories(attrs["category_ids"] || []))
   end
 
   defp parse_categories(nil), do: []

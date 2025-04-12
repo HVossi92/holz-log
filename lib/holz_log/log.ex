@@ -26,6 +26,7 @@ defmodule HolzLog.Log do
     base_query =
       Note
       |> join(:left, [n], c in assoc(n, :categories))
+      |> group_by([n], n.id)
       |> preload([:categories])
       |> where(
         [n, c],

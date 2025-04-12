@@ -47,8 +47,17 @@ defmodule HolzLogWeb.NoteController do
     note = Log.get_note!(id)
     changeset = Log.change_note(note)
     categories = Log.list_categories() |> Enum.map(fn c -> {c.title, c.id} end)
-    IO.inspect(categories)
-    render(conn, :edit, note: note, changeset: changeset, categories: categories)
+
+    render(conn, :edit,
+      note: note,
+      changeset: changeset,
+      categories: categories,
+      selected_categories: note.categories |> Enum.map(fn c -> c.id end)
+    )
+
+    # changeset = Log.change_note(%Note{})
+    # categories = Log.list_categories() |> Enum.map(fn c -> {c.title, c.id} end)
+    # render(conn, :new, changeset: changeset, categories: categories)
   end
 
   def update(conn, %{"id" => id, "note" => note_params}) do
