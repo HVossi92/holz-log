@@ -459,10 +459,7 @@ defmodule HolzLogWeb.CoreComponents do
     <footer class="py-3 px-6 bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 text-center text-sm text-gray-500 dark:text-gray-400">
       <div class="mx-auto flex flex-col md:flex-row justify-between items-center">
         <div class="md:mt-0">
-          <a
-            href="privacy.html"
-            class="hover:text-gray-700 dark:hover:text-gray-300 transition-colors"
-          >
+          <a href="/privacy" class="hover:text-gray-700 dark:hover:text-gray-300 transition-colors">
             Privacy Policy
           </a>
         </div>
