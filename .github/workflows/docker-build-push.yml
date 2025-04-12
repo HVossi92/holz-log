@@ -36,3 +36,6 @@ jobs:
             ${{ secrets.DOCKERHUB_USERNAME }}/holz_log:${{ steps.timestamp.outputs.timestamp }}
           cache-from: type=registry,ref=${{ secrets.DOCKERHUB_USERNAME }}/holz_log:buildcache
           cache-to: type=registry,ref=${{ secrets.DOCKERHUB_USERNAME }}/holz_log:buildcache,mode=max
+          build-args: |
+            SECRET_KEY_BASE=${{ secrets.SECRET_KEY_BASE }}
+            DATABASE_PATH=/app/holz_log.db

@@ -84,6 +84,14 @@ RUN chown nobody /app
 # set runner ENV
 ENV MIX_ENV="prod"
 
+# Add SECRET_KEY_BASE build argument
+ARG SECRET_KEY_BASE
+ENV SECRET_KEY_BASE=${SECRET_KEY_BASE}
+
+# Add DATABASE_PATH build argument
+ARG DATABASE_PATH
+ENV DATABASE_PATH=${DATABASE_PATH}
+
 # Only copy the final release from the build stage
 COPY --from=builder --chown=nobody:root /app/_build/${MIX_ENV}/rel/holz_log ./
 
