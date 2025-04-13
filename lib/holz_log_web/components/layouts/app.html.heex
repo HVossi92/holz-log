@@ -28,6 +28,40 @@
     </div>
 
     <div class="flex items-center space-x-2">
+      <ul class="relative z-10 flex items-center gap-4 px-4 sm:px-6 lg:px-8 justify-end">
+        <%= if @current_user do %>
+          <li class="text-[0.8125rem] leading-6 text-zinc-900 dark:text-zinc-100">
+            {@current_user.email}
+          </li>
+          <li>
+            <.link
+              href={~p"/users/settings"}
+              class="text-[0.8125rem] leading-6 text-zinc-900 dark:text-zinc-100 font-semibold hover:text-zinc-700 dark:hover:text-zinc-300"
+            >
+              Settings
+            </.link>
+          </li>
+          <li>
+            <.link
+              href={~p"/users/log_out"}
+              method="delete"
+              class="text-[0.8125rem] leading-6 text-zinc-900 dark:text-zinc-100 font-semibold hover:text-zinc-700 dark:hover:text-zinc-300"
+            >
+              Log out
+            </.link>
+          </li>
+        <% else %>
+          <li></li>
+          <li>
+            <.link
+              href={~p"/users/log_in"}
+              class="text-[0.8125rem] leading-6 text-zinc-900 dark:text-zinc-100 font-semibold hover:text-zinc-700 dark:hover:text-zinc-300"
+            >
+              Admin
+            </.link>
+          </li>
+        <% end %>
+      </ul>
       <!-- Dark mode toggle (using the existing JS) -->
       <button id="theme-toggle" class="p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700">
         <!-- Sun icon (shown in dark mode) -->
@@ -79,7 +113,7 @@
             />
           </svg>
           <input
-            value={@conn.query_params["search"]}
+            value={assigns[:search_value] || ""}
             type="text"
             name="search"
             placeholder="Search notes..."

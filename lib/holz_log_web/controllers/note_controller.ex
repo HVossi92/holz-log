@@ -18,7 +18,7 @@ defmodule HolzLogWeb.NoteController do
     categories = Log.list_categories()
 
     title =
-      if category_id,
+      if category_id !== nil and category_id > -1,
         do: "Notes in #{Enum.find(categories, &(&1.id == category_id)).title}",
         else: "All Notes"
 
@@ -30,6 +30,7 @@ defmodule HolzLogWeb.NoteController do
     |> assign(:meta_description, "#{meta_desc} - Holz Log Notes Management")
     |> assign(:meta_keywords, "notes, logs, organization, holz log")
     |> assign(:canonical_url, url(~p"/notes"))
+    |> assign(:search_value, search)
     |> render(:index, notes: notes, categories: categories)
   end
 

@@ -29,7 +29,7 @@
       }
     />
     <meta property="og:type" content="website" />
-    <meta property="og:url" content={Phoenix.Controller.current_url(assigns[:conn] || %{})} />
+    <meta property="og:url" content={assigns[:canonical_url] || HolzLogWeb.Endpoint.url()} />
     
 <!-- Twitter Card data -->
     <meta name="twitter:card" content="summary" />
@@ -43,10 +43,7 @@
     />
     
 <!-- Canonical URL -->
-    <link
-      rel="canonical"
-      href={assigns[:canonical_url] || Phoenix.Controller.current_url(assigns[:conn] || %{})}
-    />
+    <link rel="canonical" href={assigns[:canonical_url] || HolzLogWeb.Endpoint.url()} />
 
     <.live_title default="HolzLog" suffix=" · Notes Management">
       {assigns[:page_title]}
