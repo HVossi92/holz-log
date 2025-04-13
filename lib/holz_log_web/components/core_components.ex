@@ -509,7 +509,7 @@ defmodule HolzLogWeb.CoreComponents do
         >
           <tr :for={row <- @rows} id={@row_id && @row_id.(row)} class="group hover:bg-zin">
             <td>
-              <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-4 hover:shadow-md transition-shadow">
+              <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-4 hover:shadow-md transition-shadow mb-2">
                 <div class="flex justify-between items-start">
                   <a
                     href={"/notes/#{row.id}/edit"}
