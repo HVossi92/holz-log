@@ -95,6 +95,10 @@ ENV DATABASE_PATH=${DATABASE_PATH}
 # Only copy the final release from the build stage
 COPY --from=builder --chown=nobody:root /app/_build/${MIX_ENV}/rel/holz_log ./
 
+# Add our custom entrypoint script
+COPY rel/overlays/bin/docker-entrypoint.sh /app/bin/
+RUN chmod +x /app/bin/docker-entrypoint.sh
+
 USER nobody
 
 # If using an environment that doesn't automatically reap zombie processes, it is
@@ -104,4 +108,4 @@ USER nobody
 
 ENV ERL_MAX_PORTS=1024
 
-CMD ["/app/bin/server"]
+CMD ["/app/bin/docker-entrypoint.sh"]

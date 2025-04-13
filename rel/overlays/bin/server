@@ -2,4 +2,7 @@
 set -eu
 
 cd -P -- "$(dirname -- "$0")"
+echo "Running migrations..."
+./migrate
+echo "Starting server..."
 PHX_SERVER=true exec ./holz_log start
