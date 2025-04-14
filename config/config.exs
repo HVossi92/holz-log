@@ -13,7 +13,7 @@ config :holz_log,
 
 # Configures the endpoint
 config :holz_log, HolzLogWeb.Endpoint,
-  url: [host: "localhost"],
+  url: [host: "holzlog.duckdns.org"],
   adapter: Bandit.PhoenixAdapter,
   render_errors: [
     formats: [html: HolzLogWeb.ErrorHTML, json: HolzLogWeb.ErrorJSON],

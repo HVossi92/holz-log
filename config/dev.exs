@@ -17,10 +17,11 @@ config :holz_log, HolzLogWeb.Endpoint,
   # Binding to loopback ipv4 address prevents access from other machines.
   # Change to `ip: {0, 0, 0, 0}` to allow access from other machines.
   http: [ip: {127, 0, 0, 1}, port: 4000],
-  check_origin: false,
+  check_origin: ["https://holzlog.duckdns.org"],
   code_reloader: true,
   debug_errors: true,
   secret_key_base: "T+xyejLPr1kXqtPWfTbR92TRgAXE+Z+M37566BJKbwtXEL3H6LlSmXGCDfhld9bL",
+  url: [host: "holzlog.duckdns.org", port: 443, scheme: "https"],
   watchers: [
     esbuild: {Esbuild, :install_and_run, [:holz_log, ~w(--sourcemap=inline --watch)]},
     tailwind: {Tailwind, :install_and_run, [:holz_log, ~w(--watch)]}
