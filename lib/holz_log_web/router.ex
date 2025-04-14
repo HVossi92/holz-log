@@ -18,6 +18,7 @@ defmodule HolzLogWeb.Router do
     plug :accepts, ["json"]
   end
 
+  # Public scope for GET requests only
   scope "/", HolzLogWeb do
     pipe_through :browser
 
@@ -25,8 +26,32 @@ defmodule HolzLogWeb.Router do
     get "/", NoteController, :index
     get "/sitemap.xml", SitemapController, :index
     get "/robots.txt", PageController, :robots
-    resources "/categories", CategoryController
-    resources "/notes", NoteController
+    get "/categories", CategoryController, :index
+    get "/notes", NoteController, :index
+  end
+
+  # Protected scope that includes both GET routes for new/edit forms
+  # and non-GET routes for create/update/delete
+  scope "/", HolzLogWeb do
+    pipe_through [:browser, :require_authenticated_user]
+
+    # GET routes for forms
+    get "/categories/new", CategoryController, :new
+    get "/categories/:id/edit", CategoryController, :edit
+    get "/notes/new", NoteController, :new
+    get "/notes/:id/edit", NoteController, :edit
+
+    # Non-GET actions for both resources
+    resources "/categories", CategoryController, except: [:index, :show, :new, :edit]
+    resources "/notes", NoteController, except: [:index, :show, :new, :edit]
+  end
+
+  # Public routes for show views
+  scope "/", HolzLogWeb do
+    pipe_through :browser
+
+    get "/categories/:id", CategoryController, :show
+    get "/notes/:id", NoteController, :show
   end
 
   # Other scopes may use custom stacks.

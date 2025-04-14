@@ -61,7 +61,7 @@ defmodule HolzLogWeb.NoteController do
 
     # Get first 160 chars of content for meta description
     content_preview =
-      note.content
+      note.body
       |> String.slice(0, 160)
       |> String.replace(~r/\s+/, " ")
       |> String.trim()
