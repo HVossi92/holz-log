@@ -1,70 +1,75 @@
 # Holz Log
 
-This is a simple micro-blog built with the Phoenix Framework and inspired by Joplin's note-taking organization. The goal is to provide a straightforward way to create, categorize, and share notes publicly.
-A demo can be seen at https://holzlog.duckdns.org/
+![Holz Log Screenshot](screenshots/holzlog.png) <!-- Add a screenshot for visual appeal -->
 
-## Todos:
+A lightweight micro-blog built with the Phoenix Framework, inspired by Joplin's note-taking organization. Create, categorize and share markdown notes in a clean, organized interface.
 
-[] Improve and restructure readme
-[] Add Earmark dependency for note body
-[] Implement db backups, either as download or email
+**Live Demo**: [https://holzlog.duckdns.org/](https://holzlog.duckdns.org/)
 
-## Features
+## Table of Contents
 
-- **Note Creation**: A "Create Note" button at the top opens a form to create new notes. Uses a simple text area for content, allowing Markdown.
-- **Note Editing**: Each note displayed has an "Edit" button that opens a form to modify the note.
-- **Categories (Notebooks)**: Notes can be assigned to multiple categories.
-- **Category Sidebar**: A sidebar displays a list of categories/notebooks. Clicking a category filters the notes to only show those in that category. Clicking "All Notes" shows all notes.
-- **Search**: A search bar allows users to find notes by title or content.
-- **Markdown Support**: Note content is interpreted as Markdown for formatted display.
-- **SQLite Database**: Uses SQLite for easy setup and deployment.
-- **Tailwind CSS**: Styled with Tailwind CSS for a clean and responsive design.
+- [For Users](#for-users)
+  - [Features](#features)
+  - [Using Holz Log](#using-holz-log)
+- [For Developers](#for-developers)
+  - [Tech Stack](#tech-stack)
+  - [Architecture](#architecture)
+  - [Database Schema](#database-schema)
+  - [Setup and Installation](#setup-and-installation)
+  - [Development](#development)
+- [Roadmap](#roadmap)
 
-## Layout
+## For Users
 
-The website consists of the following main sections:
+### Features
 
-### Header
+- **Simple Note Management**: Create, edit, view, and organize notes with ease
+- **Category Organization**: Assign notes to multiple categories for flexible organization
+- **Quick Search**: Find notes by title or content with the built-in search feature
+- **Clean Interface**: Minimalist design focused on content readability
 
-- Contains the site title/logo (if any)
-- "Create Note" button
-- Search bar
+### Using Holz Log
 
-### Sidebar (Left)
+1. **Creating Notes**: Click the "Create Note" button in the header to create a new note
+2. **Organizing Notes**: Assign categories when creating or editing notes
+3. **Finding Notes**: Browse by category using the sidebar, or use the search function
+4. **Editing Notes**: Each note has an "Edit" button for quick modifications
 
-- A list of all categories/notebooks
-- Each category is a clickable link
-- An "All Notes" link to display all notes regardless of category
+## For Developers
 
-### Main Content Area (Right)
+### Tech Stack
 
-- Displays a list of notes
-- Each note shows:
-  - Title (clickable link to view the full note)
-  - Short excerpt of the content (e.g., the first 100-200 characters)
-  - The categories/notebooks the note is assigned to
-  - An "Edit" button to open the edit form for that note
+- **Backend**:
 
-### Single Note View
+  - [Elixir](https://elixir-lang.org/) (v1.14+)
+  - [Phoenix Framework](https://www.phoenixframework.org/) (v1.7+)
+  - [Ecto](https://hexdocs.pm/ecto/Ecto.html) - Database abstraction layer
+  - [SQLite](https://www.sqlite.org/) - Database (via [ecto_sqlite3](https://hexdocs.pm/ecto_sqlite3))
 
-- Displays the full content of a single note
-- Shows the title and categories
-- An "Edit" button to edit the note
-- A "Back" button to return to the main notes list (or the category listing)
+- **Frontend**:
+  - [Phoenix LiveView](https://hexdocs.pm/phoenix_live_view/) - For interactive UI components
+  - [Tailwind CSS](https://tailwindcss.com/) - For styling
 
-## Tailwind CSS Styling
+### Architecture
 
-The site uses Tailwind CSS utility classes extensively. Here's a general overview of the styling approach:
+The application follows Phoenix's standard MVC architecture with LiveView components:
 
-- **Readability**: Focus on clear typography, good line height, and sufficient padding/margin
-- **Color Palette**: Primarily light backgrounds, with a muted accent color for links, headings, and highlighting. Dark mode is not implemented in this iteration
-- **Responsive Design**: Uses Tailwind's responsive prefixes (e.g., `md:`, `lg:`) to adjust the layout for different screen sizes. The sidebar typically collapses to a top navigation bar on smaller screens
+- **Contexts**: Business logic organized into domain-specific modules
+- **Schema**: Ecto schemas representing database tables with validations
+- **Controllers/LiveViews**: Handle incoming requests and manage state
+- **Templates**: Render HTML responses using HEEx templates
 
-## Database Schema (SQLite)
+#### UI Layout
 
-The SQLite database consists of two main tables:
+- **Header**: Site title, create button, search bar
+- **Sidebar**: Category navigation
+- **Main Content**: Note listing or individual note view
 
-### notes
+### Database Schema
+
+The application uses a SQLite database with the following structure:
+
+#### notes
 
 ```sql
 CREATE TABLE notes (
@@ -76,7 +81,7 @@ CREATE TABLE notes (
 );
 ```
 
-### categories
+#### categories
 
 ```sql
 CREATE TABLE categories (
@@ -85,7 +90,7 @@ CREATE TABLE categories (
 );
 ```
 
-### note_categories (Join Table)
+#### note_categories (Join Table)
 
 ```sql
 CREATE TABLE note_categories (
@@ -95,48 +100,48 @@ CREATE TABLE note_categories (
 );
 ```
 
-## Technologies Used
+### Setup and Installation
 
-- **Phoenix Framework**: The web framework
-- **Ecto**: Database abstraction layer
-- **SQLite**: Database
-- **Tailwind CSS**: CSS framework
-- **Earmark**: Markdown parser
+1. **Prerequisites**:
 
-## Setup Instructions
+   - Elixir and Erlang installed ([installation guide](https://elixir-lang.org/install.html))
+   - Phoenix Framework installed: `mix archive.install hex phx_new`
 
-1. Install Elixir and Erlang:
-
-   - Follow the instructions on the [Elixir website](https://elixir-lang.org/install.html)
-
-2. Install Phoenix:
+2. **Clone and Setup**:
 
    ```bash
-   mix archive.install hex phx_new
+   # Clone the repository
+   git clone https://github.com/yourusername/holz_log.git
+   cd holz_log
+
+   # Get dependencies
+   mix deps.get
+
+   # Setup database
+   mix ecto.setup
    ```
 
-3. Create a new Phoenix project:
+3. **Run the Application**:
 
    ```bash
-   mix phx.new my_microblog --no-html --no-webpack --no-dashboard
-   cd my_microblog
+   # Start Phoenix server
+   mix phx.server
    ```
 
-   - `--no-html` prevents the generation of the default HTML layouts (we'll use Tailwind instead)
-   - `--no-webpack` skips the default webpack configuration since we'll use the simpler esbuild
-   - `--no-dashboard` omits the Erlang Observer dashboard
+4. Visit [`localhost:4000`](http://localhost:4000) in your browser
 
-4. Install esbuild:
-   Add esbuild as a dependency in `mix.exs` and run `mix deps.get`:
+### Development
 
-   ```elixir
-   defp deps do
-     [
-       {:phoenix, "~> 1.7.0"},
-       {:ecto_sqlite3, "~> 0.2"},
-       {:ecto_sql, "~> 3.0"},
-       {:esbuild, "~> 0.8", runtime: Mix.env() == :dev},
-       {:earmark, "~> 1.4"}
-     ]
-   end
-   ```
+- **Code Format**: `mix format`
+- **Start Interactive Console**: `iex -S mix`
+
+## Roadmap
+
+- [x] Basic note creation and management
+- [x] Category organization
+- [x] Make sure docker compose deployments persist db through new containers
+- [ ] Add Earmark dependency for note body
+- [ ] Do not list category IDs in frontend
+- [ ] Implement database backups (download or email)
+- [ ] Change after create & update redirects to go back to main page
+- [ ] Increase note preview character limit
