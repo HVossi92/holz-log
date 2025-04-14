@@ -482,6 +482,7 @@ defmodule HolzLogWeb.CoreComponents do
   attr :rows, :list, required: true
   attr :row_id, :any, default: nil, doc: "the function for generating the row id"
   attr :row_click, :any, default: nil, doc: "the function for handling phx-click on each row"
+  attr :current_user, :any, default: nil
 
   attr :row_item, :any,
     default: &Function.identity/1,
@@ -519,29 +520,32 @@ defmodule HolzLogWeb.CoreComponents do
                       {row.title}
                     </h3>
                   </a>
-                  <div class="flex items-center space-x-2">
-                    <div class="flex space-x-1">
-                      <.link
-                        href={"/notes/#{row.id}/edit"}
-                        method="get"
-                        class="text-gray-500 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 p-1"
-                      >
-                        <.icon name="hero-pencil" class="h-4 w-4" />
-                        <span class="sr-only">Edit</span>
-                      </.link>
+
+                  <%= if @current_user do %>
+                    <div class="flex items-center space-x-2">
+                      <div class="flex space-x-1">
+                        <.link
+                          href={"/notes/#{row.id}/edit"}
+                          method="get"
+                          class="text-gray-500 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 p-1"
+                        >
+                          <.icon name="hero-pencil-square" class="h-4 w-4" />
+                          <span class="sr-only">Edit</span>
+                        </.link>
+                      </div>
+                      <div class="flex space-x-1">
+                        <.link
+                          href={"/notes/#{row.id}"}
+                          method="delete"
+                          data-confirm="Are you sure you want to delete this note?"
+                          class="text-gray-500 dark:text-gray-400 hover:text-red-600 dark:hover:text-red-400 p-1"
+                        >
+                          <.icon name="hero-trash" class="h-4 w-4" />
+                          <span class="sr-only">Delete</span>
+                        </.link>
+                      </div>
                     </div>
-                    <div class="flex space-x-1">
-                      <.link
-                        href={"/notes/#{row.id}"}
-                        method="delete"
-                        data-confirm="Are you sure you want to delete this note?"
-                        class="text-gray-500 dark:text-gray-400 hover:text-red-600 dark:hover:text-red-400 p-1"
-                      >
-                        <.icon name="hero-trash" class="h-4 w-4" />
-                        <span class="sr-only">Delete</span>
-                      </.link>
-                    </div>
-                  </div>
+                  <% end %>
                 </div>
 
                 <div class="flex flex-wrap gap-1 mt-2">
