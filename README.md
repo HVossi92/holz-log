@@ -1,6 +1,13 @@
 # Holz Log
 
 This is a simple micro-blog built with the Phoenix Framework and inspired by Joplin's note-taking organization. The goal is to provide a straightforward way to create, categorize, and share notes publicly.
+A demo can be seen at https://holzlog.duckdns.org/
+
+## Todos:
+
+[] Improve and restructure readme
+[] Add Earmark dependency for note body
+[] Implement db backups, either as download or email
 
 ## Features
 
