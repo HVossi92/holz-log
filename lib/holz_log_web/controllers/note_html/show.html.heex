@@ -13,19 +13,21 @@
   }
 </script>
 
-<.header>
-  Note {@note.id}
-  <:subtitle>This is a note record from your database.</:subtitle>
-  <:actions>
-    <.link href={~p"/notes/#{@note}/edit"}>
-      <.button>Edit note</.button>
-    </.link>
-  </:actions>
-</.header>
+<div class="p-6">
+  <.header>
+    Note {@note.title}
+    <:actions>
+      <.link href={~p"/notes/#{@note}/edit"}>
+        <.button>Edit note</.button>
+      </.link>
+    </:actions>
+  </.header>
 
-<.list>
-  <:item title="Title">{@note.title}</:item>
-  <:item title="Body">{@note.body}</:item>
-</.list>
+  <div class="p-8">
+    <.list>
+      <:item title="Body">{@note.body}</:item>
+    </.list>
+  </div>
 
-<.back navigate={~p"/notes"}>Back to notes</.back>
+  <.back navigate={~p"/notes"}>Back to notes</.back>
+</div>

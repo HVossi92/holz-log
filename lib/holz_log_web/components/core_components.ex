@@ -512,23 +512,35 @@ defmodule HolzLogWeb.CoreComponents do
               <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-4 hover:shadow-md transition-shadow mb-2">
                 <div class="flex justify-between items-start">
                   <a
-                    href={"/notes/#{row.id}/edit"}
+                    href={"/notes/#{row.id}"}
                     class="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 p-1"
                   >
                     <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-100 hover:text-blue-600 dark:hover:text-blue-400 cursor-pointer">
                       {row.title}
                     </h3>
                   </a>
-                  <div class="flex space-x-1">
-                    <.link
-                      href={"/notes/#{row.id}"}
-                      method="delete"
-                      data-confirm="Are you sure you want to delete this note?"
-                      class="text-gray-500 dark:text-gray-400 hover:text-red-600 dark:hover:text-red-400 p-1"
-                    >
-                      <.icon name="hero-trash" class="h-4 w-4" />
-                      <span class="sr-only">Delete</span>
-                    </.link>
+                  <div class="flex items-center space-x-2">
+                    <div class="flex space-x-1">
+                      <.link
+                        href={"/notes/#{row.id}/edit"}
+                        method="get"
+                        class="text-gray-500 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 p-1"
+                      >
+                        <.icon name="hero-pencil" class="h-4 w-4" />
+                        <span class="sr-only">Edit</span>
+                      </.link>
+                    </div>
+                    <div class="flex space-x-1">
+                      <.link
+                        href={"/notes/#{row.id}"}
+                        method="delete"
+                        data-confirm="Are you sure you want to delete this note?"
+                        class="text-gray-500 dark:text-gray-400 hover:text-red-600 dark:hover:text-red-400 p-1"
+                      >
+                        <.icon name="hero-trash" class="h-4 w-4" />
+                        <span class="sr-only">Delete</span>
+                      </.link>
+                    </div>
                   </div>
                 </div>
 
@@ -574,7 +586,7 @@ defmodule HolzLogWeb.CoreComponents do
     ~H"""
     <dl>
       <div :for={item <- @item}>
-        <dd>{render_slot(item)}</dd>
+        <dd class="dark:text-gray-300">{render_slot(item)}</dd>
       </div>
     </dl>
     """
