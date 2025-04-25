@@ -139,7 +139,7 @@ CREATE TABLE note_categories (
 
 - [x] Basic note creation and management
 - [x] Category organization
-- [x] Make sure docker compose deployments persist db through new containers
+- [x] Make sure docker compose deployments persist db through new containers (fix docker compose)
 - [ ] Add Earmark dependency for note body
 - [ ] Do not list category IDs in frontend
 - [ ] Implement database backups (download or email)

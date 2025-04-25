@@ -106,6 +106,6 @@ USER nobody
 # above and adding an entrypoint. See https://github.com/krallin/tini for details
 # ENTRYPOINT ["/tini", "--"]
 
-ENV ERL_MAX_PORTS=1024
+ENV ERL_MAX_PORTS=128
 
 CMD ["/app/bin/docker-entrypoint.sh"]
