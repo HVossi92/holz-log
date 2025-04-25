@@ -68,7 +68,7 @@ RUN mix release
 FROM ${RUNNER_IMAGE}
 
 RUN apt-get update -y && \
-  apt-get install -y libstdc++6 openssl libncurses5 locales ca-certificates \
+  apt-get install -y libstdc++6 openssl libncurses5 locales ca-certificates sqlite3 \
   && apt-get clean && rm -f /var/lib/apt/lists/*_*
 
 # Set the locale
@@ -98,6 +98,9 @@ COPY --from=builder --chown=nobody:root /app/_build/${MIX_ENV}/rel/holz_log ./
 # Add our custom entrypoint script
 COPY rel/overlays/bin/docker-entrypoint.sh /app/bin/
 RUN chmod +x /app/bin/docker-entrypoint.sh
+
+# Create data directory and set permissions
+RUN mkdir -p /app/data && chown -R nobody:root /app/data && chmod 755 /app/data
 
 USER nobody
 
