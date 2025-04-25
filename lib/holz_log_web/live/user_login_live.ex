@@ -36,9 +36,12 @@ defmodule HolzLogWeb.UserLoginLive do
   end
 
   def mount(_params, session, socket) do
-    if session["flash"] do
-      socket = Phoenix.Component.assign_flash(socket, session["flash"])
-    end
+    socket =
+      if flash = session["flash"] do
+        put_flash(socket, flash.kind, flash.message)
+      else
+        socket
+      end
 
     email = Phoenix.Flash.get(socket.assigns.flash || %{}, :email)
     form = to_form(%{"email" => email}, as: "user")
