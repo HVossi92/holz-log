@@ -44,7 +44,7 @@ if config_env() == :prod do
       You can generate one by calling: mix phx.gen.secret
       """
 
-  host = System.get_env("PHX_HOST") || "example.com"
+  host = System.get_env("PHX_HOST") || "holzlog.vossihub.com"
   port = String.to_integer(System.get_env("PORT") || "4000")
 
   config :holz_log, :dns_cluster_query, System.get_env("DNS_CLUSTER_QUERY")
@@ -59,7 +59,10 @@ if config_env() == :prod do
       ip: {0, 0, 0, 0, 0, 0, 0, 0},
       port: port
     ],
-    check_origin: ["https://holzlog.duckdns.org"],
+    check_origin: [
+      "//holzlog.vossihub.com",
+      "//*.holzlog.vossihub.com"
+    ],
     secret_key_base: secret_key_base
 
   # ## SSL Support
