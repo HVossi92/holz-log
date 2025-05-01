@@ -17,15 +17,19 @@
   <.header>
     Note {@note.title}
     <:actions>
-      <.link href={~p"/notes/#{@note}/edit"}>
-        <.button>Edit note</.button>
-      </.link>
+      <%= if @current_user do %>
+        <.link href={~p"/notes/#{@note}/edit"}>
+          <.button>Edit note</.button>
+        </.link>
+      <% end %>
     </:actions>
   </.header>
 
   <div class="p-8">
     <.list>
-      <:item title="Body">{@note.body}</:item>
+      <:item title="Body">
+        <div class="whitespace-pre-line">{@note.body}</div>
+      </:item>
     </.list>
   </div>
 

@@ -556,7 +556,7 @@ defmodule HolzLogWeb.CoreComponents do
                   <% end %>
                 </div>
 
-                <p class="mt-2 text-gray-600 dark:text-gray-300 line-clamp-2 cursor-pointer">
+                <p class="mt-2 text-gray-600 dark:text-gray-300 line-clamp-2 cursor-pointer whitespace-pre-line">
                   {row.body}
                 </p>
 
