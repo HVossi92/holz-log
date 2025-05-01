@@ -63,11 +63,11 @@
             <div class="flex space-x-1">
               <%= if Integer.to_string(category.id) === @conn.query_params["category_id"] do %>
                 <button class="w-full text-left px-3 py-2 rounded-md text-sm font-medium bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-gray-100">
-                  {category.id} {category.title}
+                  {category.title}
                 </button>
               <% else %>
                 <button class="w-full text-left px-3 py-2 rounded-md text-sm font-medium text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-gray-100">
-                  {category.id} {category.title}
+                  {category.title}
                 </button>
               <% end %>
 
