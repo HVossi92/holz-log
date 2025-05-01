@@ -61,7 +61,9 @@ if config_env() == :prod do
     ],
     check_origin: [
       "//holzlog.vossihub.com",
-      "//*.holzlog.vossihub.com"
+      "//*.holzlog.vossihub.com",
+      "//holzlog.duckdns.org",
+      "//*.holzlog.duckdns.org"
     ],
     secret_key_base: secret_key_base
 
